@@ -20,6 +20,6 @@
 
 [[redirects]]
   from = "/proxy3/*"
-  to = "http://apis.data.go.kr/1471000/MdcinGrnIdntfcInfoService01:splat"
+  to = "http://apis.data.go.kr/1471000/MdcinGrnIdntfcInfoService01/getMdcinGrnIdntfcInfoList01:splat"
   status = 200
   force = true
