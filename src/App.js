@@ -15,7 +15,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 function App() {
   const [keyWord, setKeyWord] = useState("아토목");
-
+  const [prevKeyWord, setPrevKeyWord] = useState("");
   const [searchLoading, setSearchLoading] = useState(true);
 
   // recoil
@@ -28,11 +28,15 @@ function App() {
   }, []);
 
   useEffect(() => {
-    setDetailDataArr([]);
-    setSimpleDataArr([]);
-    setOtherDataArr([]);
-    getDrugDetailData();
-    getDrugSimpleData();
+    if (keyWord !== prevKeyWord) {
+      setDetailDataArr([]);
+      setSimpleDataArr([]);
+      setOtherDataArr([]);
+      setPrevKeyWord(keyWord);
+      setSearchLoading(true);
+      getDrugDetailData();
+      getDrugSimpleData();
+    }
   }, [keyWord]);
 
   const params = {
@@ -61,7 +65,6 @@ function App() {
       .get(URL1, { params })
       .then((res) => {
         setDetailDataArr(res.data.body.items);
-        console.log(res.data.body.items);
       })
       .catch((err) => {
         console.log(err);
@@ -74,15 +77,16 @@ function App() {
       .then((res) => {
         let list = [];
 
-        // console.log(res.data.body.items);
-
         setSimpleDataArr(res.data.body.items);
-
         setSearchLoading(false);
 
         res.data.body.items.map((item) => {
           list.push(item.ITEM_SEQ);
         });
+
+        if (res.data.body.items.length === 0) {
+          console.log("검색결과가 없어요");
+        }
 
         getDrugOtherData(list);
       })
@@ -107,8 +111,6 @@ function App() {
             imageList[list.indexOf(item.ITEM_SEQ)] = item;
           }
         });
-
-        // console.log(res.data.body.items);
         setOtherDataArr(imageList);
       });
   };
@@ -143,7 +145,12 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Header setKeyWord={setKeyWord} setSearchLoading={setSearchLoading} />
+        <Header
+          keyWord={keyWord}
+          prevKeyWord={prevKeyWord}
+          setKeyWord={setKeyWord}
+          setSearchLoading={setSearchLoading}
+        />
         <Routes>
           <Route
             path="/"

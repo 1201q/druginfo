@@ -74,11 +74,7 @@ const MaterialChart = ({ pillMaterial }) => {
   };
   return (
     <Div>
-      <Doughnut
-        data={data}
-        options={options}
-        centerText="This is the center text"
-      />
+      <Doughnut data={data} options={options} />
     </Div>
   );
 };
@@ -87,10 +83,6 @@ const Div = styled.div`
   width: 100%;
   height: 260px;
   margin-top: 20px;
-`;
-
-const CenterText = styled.p`
-  position: absolute;
 `;
 
 export default MaterialChart;

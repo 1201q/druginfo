@@ -13,14 +13,19 @@ const SearchResult = ({ searchLoading }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const hasData =
+    detailDataArr &&
+    simpleDataArr &&
+    detailDataArr.length > 0 &&
+    simpleDataArr.length > 0;
+
   return (
     <AnimatePresence>
       <Container>
         <Wrapper>
           <HeaderText>검색</HeaderText>
-          {simpleDataArr.length > 0 && detailDataArr.length > 0 && (
-            <EffectRecommend />
-          )}
+          {hasData && <EffectRecommend />}
           {searchLoading ? (
             <Loading>
               <RaceBy size={250} color="#0066ff" speed={1} lineWeight={12} />

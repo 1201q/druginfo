@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
-const Header = ({ setKeyWord, setSearchLoading }) => {
+const Header = ({ setKeyWord }) => {
   const [searchKeyWord, setsearchKeyWord] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setSearchLoading(true);
+
     setKeyWord(searchKeyWord);
     setsearchKeyWord("");
   };

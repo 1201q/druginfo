@@ -73,8 +73,6 @@ const DetailComponent = ({}) => {
   }, []);
   useEffect(() => {
     if (index >= 0) {
-      console.log(detailDataArr[index]);
-      console.log(otherDataArr[index]);
       getPillMaterial(detailDataArr[index]);
       getPillStyle(otherDataArr[index]);
     }
@@ -139,7 +137,6 @@ const DetailComponent = ({}) => {
       }
     });
     setPillMaterial(material);
-    console.log(material);
   };
 
   return (
@@ -172,14 +169,14 @@ const DetailComponent = ({}) => {
                   {index >= 0 && simpleDataArr[index].ENTP_NAME}
                 </ComponentInfo>
                 <div style={{ display: "flex" }}>
-                  <ComponentType fColor={"#3182f6"} fBg={"#e8f3ff"}>
+                  <ComponentType fcolor={"#3182f6"} fBg={"#e8f3ff"}>
                     {index >= 0 &&
                       simpleDataArr[index].PRDUCT_TYPE.replace(
                         /\[[^\]]*\]/g,
                         ""
                       )}
                   </ComponentType>
-                  <ComponentType fColor={"#303237"} fBg={"#f2f4f6"}>
+                  <ComponentType fcolor={"#303237"} fBg={"#f2f4f6"}>
                     {index >= 0 &&
                       detailDataArr[index].MAIN_ITEM_INGR.replace(
                         /\[[^\]]*\]/g,
@@ -393,7 +390,7 @@ const DetailComponent = ({}) => {
                 <Header Hposition="absolute" style={{ marginBottom: "10px" }}>
                   성분함량
                 </Header>
-                {index > 0 && (
+                {index >= 0 && pillMaterial && (
                   <>
                     <MaterialSummary pillMaterial={pillMaterial} />
                   </>
@@ -405,11 +402,11 @@ const DetailComponent = ({}) => {
                 <Header style={{ width: "fit-content", marginBottom: "10px" }}>
                   다른결과
                 </Header>
-                {index > 0 && (
+                {index >= 0 && (
                   <>
                     <OtherLinkBtn
-                      bgColor="#03C75A"
-                      fColor="white"
+                      bgcolor="#03C75A"
+                      fcolor="white"
                       href={`https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=${detailDataArr[index].ITEM_NAME}`}
                       target="_blank"
                       whileTap={{ scale: 0.95 }}
@@ -423,8 +420,8 @@ const DetailComponent = ({}) => {
                       네이버 검색결과
                     </OtherLinkBtn>
                     <OtherLinkBtn
-                      bgColor="#EEEDEB"
-                      fColor="#333333"
+                      bgcolor="#EEEDEB"
+                      fcolor="#333333"
                       href={`https://www.google.co.kr/search?q=${detailDataArr[index].ITEM_NAME}`}
                       target="_blank"
                       whileTap={{ scale: 0.95 }}
@@ -438,8 +435,8 @@ const DetailComponent = ({}) => {
                       구글 검색결과
                     </OtherLinkBtn>
                     <OtherLinkBtn
-                      bgColor="#EEEDEB"
-                      fColor="#333333"
+                      bgcolor="#EEEDEB"
+                      fcolor="#333333"
                       href={`https://100.daum.net/search/entry?q=${detailDataArr[index].ITEM_NAME}`}
                       target="_blank"
                       whileTap={{ scale: 0.95 }}
@@ -453,8 +450,8 @@ const DetailComponent = ({}) => {
                       다음사전 검색결과
                     </OtherLinkBtn>
                     <OtherLinkBtn
-                      bgColor="#EEEDEB"
-                      fColor="#333333"
+                      bgcolor="#EEEDEB"
+                      fcolor="#333333"
                       href={`https://nedrug.mfds.go.kr/pbp/CCBBB01/getItemDetail?itemSeq=${detailDataArr[index].ITEM_SEQ}`}
                       target="_blank"
                       whileTap={{ scale: 0.95 }}
@@ -576,7 +573,7 @@ const ComponentInfo = styled.div`
 const ComponentType = styled.div`
   width: max-content;
   background-color: ${(props) => props.fBg};
-  color: ${(props) => props.fColor};
+  color: ${(props) => props.fcolor};
   font-weight: bold;
   font-size: 16px;
   padding: 5px 8px;
@@ -623,8 +620,8 @@ const OtherLinkBtn = styled(motion.a)`
   display: flex;
   align-items: center;
   border: none;
-  background-color: ${(props) => props.bgColor};
-  color: ${(props) => props.fColor};
+  background-color: ${(props) => props.bgcolor};
+  color: ${(props) => props.fcolor};
   cursor: pointer;
   padding: 10px 0px;
   margin-bottom: 10px;

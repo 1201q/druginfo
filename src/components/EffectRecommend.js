@@ -47,7 +47,9 @@ const EffectRecommend = () => {
             효능효과를 추천해드릴게요!
           </p>
         </Header>
-        <Text>{parseXML(detailDataArr[0].EE_DOC_DATA)}</Text>
+        <Text>
+          {detailDataArr.length > 0 && parseXML(detailDataArr[0].EE_DOC_DATA)}
+        </Text>
       </Wrapper>
     </Container>
   );
