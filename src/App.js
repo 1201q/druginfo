@@ -41,12 +41,24 @@ function App() {
     item_name: keyWord,
   };
 
+  const LOCALHOST_URL1 = process.env.REACT_APP_LOCALHOST_URL1;
+  const LOCALHOST_URL2 = process.env.REACT_APP_LOCALHOST_URL2;
+  const LOCALHOST_URL3 = process.env.REACT_APP_LOCALHOST_URL3;
+
+  const SERVER_URL1 = process.env.REACT_APP_SERVER_URL1;
+  const SERVER_URL2 = process.env.REACT_APP_SERVER_URL2;
+  const SERVER_URL3 = process.env.REACT_APP_SERVER_URL3;
+
+  const URL1 =
+    window.location.hostname === "localhost" ? LOCALHOST_URL1 : SERVER_URL1;
+  const URL2 =
+    window.location.hostname === "localhost" ? LOCALHOST_URL2 : SERVER_URL2;
+  const URL3 =
+    window.location.hostname === "localhost" ? LOCALHOST_URL3 : SERVER_URL3;
+
   const getDrugDetailData = () => {
     axios
-      .get(
-        "https://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService04/getDrugPrdtPrmsnDtlInq03",
-        { params }
-      )
+      .get(URL1, { params })
       .then((res) => {
         setDetailDataArr(res.data.body.items);
         console.log(res.data.body.items);
@@ -58,10 +70,7 @@ function App() {
 
   const getDrugSimpleData = () => {
     axios
-      .get(
-        "https://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService04/getDrugPrdtPrmsnInq04",
-        { params }
-      )
+      .get(URL2, { params })
       .then((res) => {
         let list = [];
 
@@ -85,16 +94,13 @@ function App() {
   const getDrugOtherData = (list) => {
     let imageList = Array(list.length).fill(null);
     axios
-      .get(
-        `/getMdcinGrnIdntfcInfoList01?serviceKey=BXYfYLWmyQLWjO5humu5eK%2BTjxBIjj4wR%2BB7E%2Ftbwmhi1wMWLdF204NALK%2BO1iO2LMWeeu%2BZhR2KDrsDuTcVUA%3D%3D`,
-        {
-          params: {
-            type: "json",
-            item_name: keyWord,
-            numOfRows: 20,
-          },
-        }
-      )
+      .get(URL3, {
+        params: {
+          type: "json",
+          item_name: keyWord,
+          numOfRows: 20,
+        },
+      })
       .then((res) => {
         res.data.body.items.map((item) => {
           if (list.indexOf(item.ITEM_SEQ) !== -1) {

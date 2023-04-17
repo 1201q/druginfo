@@ -1,0 +1,25 @@
+[build]
+  command = "CI= npm run build"
+  publish = "build"
+
+[context.production.environment]
+  TOML_ENV_VAR = "From netlify.toml"
+  REACT_APP_TOML_ENV_VAR = "From netlify.toml (REACT_APP_)"
+
+[[redirects]]
+  from = "/proxy1/*"
+  to = "https://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService04/getDrugPrdtPrmsnDtlInq03:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/proxy2/*"
+  to = "https://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService04/getDrugPrdtPrmsnInq04:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/proxy3/*"
+  to = "http://apis.data.go.kr/1471000/MdcinGrnIdntfcInfoService01:splat"
+  status = 200
+  force = true
