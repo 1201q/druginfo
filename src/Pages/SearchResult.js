@@ -28,13 +28,6 @@ const SearchResult = ({ searchLoading }) => {
   return (
     <AnimatePresence>
       <Container>
-        <div>
-          {JSON.parse(localStorage.getItem("searchHistory")).map(
-            (item, index) => (
-              <div>{item}</div>
-            )
-          )}
-        </div>
         <Wrapper>
           <HeaderText>검색</HeaderText>
           {hasData && <EffectRecommend />}
@@ -77,7 +70,7 @@ const HeaderText = styled.p`
   margin: 0;
   font-weight: 900;
   font-size: 40px;
-  margin: 30px 0px;
+  margin: 70px 0px 20px 0px;
 `;
 
 const Box = styled(motion.div)`
