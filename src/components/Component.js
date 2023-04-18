@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRecoilValue } from "recoil";
@@ -8,9 +8,12 @@ import {
   simpleDataState,
   otherDataState,
 } from "../Context/Context";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Component = ({ index }) => {
-  const [imgLink, setImgLink] = useState("");
+  const [imgLink, setImgLink] = useState(null);
+  const [imgLoading, setImgLoading] = useState(true);
   const detailDataArr = useRecoilValue(detailDataState);
   const simpleDataArr = useRecoilValue(simpleDataState);
   const otherDataArr = useRecoilValue(otherDataState);
@@ -18,8 +21,10 @@ const Component = ({ index }) => {
   useEffect(() => {
     if (otherDataArr[index]) {
       setImgLink(otherDataArr[index].ITEM_IMAGE);
+      console.log("이미지링크");
     } else {
-      setImgLink("");
+      setImgLink(null);
+      console.log("이미지null");
     }
   }, [otherDataArr[index]]);
 
@@ -59,13 +64,34 @@ const Component = ({ index }) => {
               detailDataArr[index] && detailDataArr[index].ITEM_SEQ
             }`}
           >
-            <Thumbnail
-              src={imgLink ? imgLink : require("../images/thumbnail.png")}
-              alt=""
-            />
+            {imgLink ? (
+              <>
+                {imgLoading ? (
+                  <Skeleton
+                    width={280}
+                    height={153}
+                    style={{ marginBottom: 19.1 }}
+                    borderRadius={10}
+                    enableAnimation={true}
+                    duration={0.2}
+                    baseColor={"#f5f5f5"}
+                    highlightColor={"red"}
+                  />
+                ) : null}
+                <Thumbnail
+                  src={imgLink}
+                  alt=""
+                  onLoad={() => setImgLoading(false)}
+                  style={{ display: imgLoading && "none" }}
+                />
+              </>
+            ) : (
+              <Thumbnail src={require("../images/thumbnail.png")} alt="" />
+            )}
+
             <ComponentHeader>
               {simpleDataArr[index].ITEM_NAME.replace(/\([^)]*\)/g, "")}
-            </ComponentHeader>{" "}
+            </ComponentHeader>
           </StyledLink>
           <ComponentInfo>
             {simpleDataArr[index].SPCLTY_PBLC} <hr></hr>{" "}
@@ -108,9 +134,11 @@ const Wrapper = styled(motion.div)`
 `;
 
 const Thumbnail = styled(motion.img)`
-  width: 100%;
+  width: 280px;
+  height: 153px;
   border-radius: 10px;
   margin-bottom: 15px;
+  margin-top: 1.8px;
 `;
 
 const ComponentHeader = styled(motion.div)`

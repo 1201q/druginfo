@@ -239,24 +239,34 @@ const DetailComponent = ({}) => {
                               width: "30%",
                             }}
                           >
-                            <div
-                              style={{ display: "flex", alignItems: "center" }}
-                            >
-                              {otherDataArr[index].COLOR_CLASS1}
-                              {"  "}
+                            {otherDataArr[index].COLOR_CLASS1 ? (
                               <div
                                 style={{
-                                  width: "13px",
-                                  height: "13px",
-                                  borderRadius: "50%",
-                                  border: "1px solid gray",
-                                  marginLeft: "10px",
-
-                                  backgroundColor:
-                                    pillColor[otherDataArr[index].COLOR_CLASS1],
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
                                 }}
-                              ></div>
-                            </div>
+                              >
+                                {otherDataArr[index].COLOR_CLASS1}
+
+                                <div
+                                  style={{
+                                    width: "13px",
+                                    height: "13px",
+                                    borderRadius: "50%",
+                                    border: "1px solid gray",
+                                    marginLeft: "10px",
+
+                                    backgroundColor:
+                                      pillColor[
+                                        otherDataArr[index].COLOR_CLASS1
+                                      ],
+                                  }}
+                                ></div>
+                              </div>
+                            ) : (
+                              <div>없음</div>
+                            )}
                           </td>
                           <td
                             style={{
@@ -271,23 +281,33 @@ const DetailComponent = ({}) => {
                               width: "30%",
                             }}
                           >
-                            <div
-                              style={{ display: "flex", alignItems: "center" }}
-                            >
-                              {otherDataArr[index].COLOR_CLASS2}
-                              {"  "}
+                            {otherDataArr[index].COLOR_CLASS2 ? (
                               <div
                                 style={{
-                                  width: "13px",
-                                  height: "13px",
-                                  borderRadius: "50%",
-                                  border: "1px solid gray",
-                                  marginLeft: "10px",
-                                  backgroundColor:
-                                    pillColor[otherDataArr[index].COLOR_CLASS2],
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
                                 }}
-                              ></div>
-                            </div>
+                              >
+                                {otherDataArr[index].COLOR_CLASS2}
+                                {"  "}
+                                <div
+                                  style={{
+                                    width: "13px",
+                                    height: "13px",
+                                    borderRadius: "50%",
+                                    border: "1px solid gray",
+                                    marginLeft: "10px",
+                                    backgroundColor:
+                                      pillColor[
+                                        otherDataArr[index].COLOR_CLASS2
+                                      ],
+                                  }}
+                                ></div>
+                              </div>
+                            ) : (
+                              <div>없음</div>
+                            )}
                           </td>
                         </tr>
                         <tr>
@@ -301,7 +321,7 @@ const DetailComponent = ({}) => {
                             앞
                           </td>
                           <td style={{ width: "30%" }}>
-                            {pillStyle.frontLine}
+                            {pillStyle.frontLine ? pillStyle.frontLine : "없음"}
                           </td>
                           <td
                             style={{
@@ -311,7 +331,9 @@ const DetailComponent = ({}) => {
                           >
                             뒤
                           </td>
-                          <td style={{ width: "30%" }}>{pillStyle.backLine}</td>
+                          <td style={{ width: "30%" }}>
+                            {pillStyle.backLine ? pillStyle.backLine : "없음"}
+                          </td>
                         </tr>
                         <tr>
                           <th>표시</th>
@@ -324,7 +346,9 @@ const DetailComponent = ({}) => {
                             앞
                           </td>
                           <td style={{ width: "30%" }}>
-                            {pillStyle.frontSummary}
+                            {pillStyle.frontSummary
+                              ? pillStyle.frontSummary
+                              : "없음"}
                           </td>
                           <td
                             style={{
@@ -335,7 +359,9 @@ const DetailComponent = ({}) => {
                             뒤
                           </td>
                           <td style={{ width: "30%" }}>
-                            {pillStyle.backSummary}
+                            {pillStyle.backSummary
+                              ? pillStyle.backSummary
+                              : "없음"}
                           </td>
                         </tr>
                         <tr>
@@ -349,11 +375,15 @@ const DetailComponent = ({}) => {
                             앞
                           </td>
                           <td style={{ width: "30%" }}>
-                            <img
-                              src={pillStyle.frontImg}
-                              alt=""
-                              width={"40px"}
-                            />
+                            {pillStyle.frontImg ? (
+                              <img
+                                src={pillStyle.frontImg}
+                                alt=""
+                                width={"40px"}
+                              />
+                            ) : (
+                              "없음"
+                            )}
                           </td>
                           <td
                             style={{
@@ -364,11 +394,15 @@ const DetailComponent = ({}) => {
                             뒤
                           </td>
                           <td style={{ width: "30%" }}>
-                            <img
-                              src={pillStyle.backImg}
-                              alt=""
-                              width={"40px"}
-                            />
+                            {pillStyle.backImg ? (
+                              <img
+                                src={pillStyle.backImg}
+                                alt=""
+                                width={"40px"}
+                              />
+                            ) : (
+                              "없음"
+                            )}
                           </td>
                         </tr>
                       </tbody>

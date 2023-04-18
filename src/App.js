@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import styled from "styled-components";
+
 import SearchResult from "./Pages/SearchResult";
 import Header from "./components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -11,10 +11,15 @@ import {
   simpleDataState,
   otherDataState,
 } from "./Context/Context";
-import { motion, AnimatePresence } from "framer-motion";
 
 function App() {
-  const [keyWord, setKeyWord] = useState("아토목");
+  const [keyWord, setKeyWord] = useState(() => {
+    if (!localStorage.getItem("searchKeyWord")) {
+      return "탁센";
+    } else {
+      return localStorage.getItem("searchKeyWord");
+    }
+  });
   const [prevKeyWord, setPrevKeyWord] = useState("");
   const [searchLoading, setSearchLoading] = useState(true);
 
@@ -65,6 +70,10 @@ function App() {
       .get(URL1, { params })
       .then((res) => {
         setDetailDataArr(res.data.body.items);
+
+        if (res.data.body.items) {
+          localStorage.setItem("searchKeyWord", keyWord);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -83,10 +92,6 @@ function App() {
         res.data.body.items.map((item) => {
           list.push(item.ITEM_SEQ);
         });
-
-        if (res.data.body.items.length === 0) {
-          console.log("검색결과가 없어요");
-        }
 
         getDrugOtherData(list);
       })
@@ -150,6 +155,8 @@ function App() {
           prevKeyWord={prevKeyWord}
           setKeyWord={setKeyWord}
           setSearchLoading={setSearchLoading}
+          getDrugDetailData={getDrugDetailData}
+          getDrugSimpleData={getDrugSimpleData}
         />
         <Routes>
           <Route

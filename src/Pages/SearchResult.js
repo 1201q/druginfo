@@ -4,12 +4,17 @@ import Component from "../components/Component";
 import { RaceBy } from "@uiball/loaders";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { simpleDataState, detailDataState } from "../Context/Context";
+import {
+  simpleDataState,
+  detailDataState,
+  otherDataState,
+} from "../Context/Context";
 import { useRecoilValue } from "recoil";
 
 const SearchResult = ({ searchLoading }) => {
   const detailDataArr = useRecoilValue(detailDataState);
   const simpleDataArr = useRecoilValue(simpleDataState);
+  const otherDataArr = useRecoilValue(otherDataState);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -25,14 +30,14 @@ const SearchResult = ({ searchLoading }) => {
       <Container>
         <Wrapper>
           <HeaderText>검색</HeaderText>
-          {hasData && <EffectRecommend />}
+          {/* {hasData && <EffectRecommend />} */}
           {searchLoading ? (
             <Loading>
               <RaceBy size={250} color="#0066ff" speed={1} lineWeight={12} />
             </Loading>
           ) : (
             <Box>
-              {simpleDataArr && simpleDataArr.length > 0 ? (
+              {otherDataArr && simpleDataArr.length > 0 ? (
                 simpleDataArr.map((item, index) => (
                   <Component key={index} index={index} />
                 ))
