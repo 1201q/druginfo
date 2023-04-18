@@ -28,16 +28,24 @@ const SearchResult = ({ searchLoading }) => {
   return (
     <AnimatePresence>
       <Container>
+        <div>
+          {JSON.parse(localStorage.getItem("searchHistory")).map(
+            (item, index) => (
+              <div>{item}</div>
+            )
+          )}
+        </div>
         <Wrapper>
           <HeaderText>검색</HeaderText>
-          {/* {hasData && <EffectRecommend />} */}
+          {hasData && <EffectRecommend />}
           {searchLoading ? (
             <Loading>
-              <RaceBy size={250} color="#0066ff" speed={1} lineWeight={12} />
+              <RaceBy size={250} speed={1} lineWeight={10} />
+              <div style={{ marginTop: 30 }}>로딩중</div>
             </Loading>
           ) : (
             <Box>
-              {otherDataArr && simpleDataArr.length > 0 ? (
+              {simpleDataArr && otherDataArr && simpleDataArr.length > 0 ? (
                 simpleDataArr.map((item, index) => (
                   <Component key={index} index={index} />
                 ))
@@ -81,9 +89,10 @@ const Box = styled(motion.div)`
 const Loading = styled.div`
   height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 90px;
 `;
 
 export default SearchResult;

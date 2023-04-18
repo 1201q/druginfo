@@ -8,8 +8,8 @@ import {
   simpleDataState,
   otherDataState,
 } from "../Context/Context";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+
+import { Ring } from "@uiball/loaders";
 
 const Component = ({ index }) => {
   const [imgLink, setImgLink] = useState(null);
@@ -21,10 +21,8 @@ const Component = ({ index }) => {
   useEffect(() => {
     if (otherDataArr[index]) {
       setImgLink(otherDataArr[index].ITEM_IMAGE);
-      console.log("이미지링크");
     } else {
       setImgLink(null);
-      console.log("이미지null");
     }
   }, [otherDataArr[index]]);
 
@@ -65,18 +63,20 @@ const Component = ({ index }) => {
             }`}
           >
             {imgLink ? (
-              <>
+              <div>
                 {imgLoading ? (
-                  <Skeleton
-                    width={280}
-                    height={153}
-                    style={{ marginBottom: 19.1 }}
-                    borderRadius={10}
-                    enableAnimation={true}
-                    duration={0.2}
-                    baseColor={"#f5f5f5"}
-                    highlightColor={"red"}
-                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: 280,
+                      height: 153,
+                      marginBottom: 19,
+                    }}
+                  >
+                    <Ring color="black" speed={1} lineWeight={5} />
+                  </div>
                 ) : null}
                 <Thumbnail
                   src={imgLink}
@@ -84,7 +84,7 @@ const Component = ({ index }) => {
                   onLoad={() => setImgLoading(false)}
                   style={{ display: imgLoading && "none" }}
                 />
-              </>
+              </div>
             ) : (
               <Thumbnail src={require("../images/thumbnail.png")} alt="" />
             )}
@@ -138,7 +138,6 @@ const Thumbnail = styled(motion.img)`
   height: 153px;
   border-radius: 10px;
   margin-bottom: 15px;
-  margin-top: 1.8px;
 `;
 
 const ComponentHeader = styled(motion.div)`

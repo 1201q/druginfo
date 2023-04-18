@@ -8,8 +8,8 @@ import {
   otherDataState,
   simpleDataState,
 } from "../Context/Context";
-import MaterialChart from "./MaterialChart";
-import MaterialSummary from "./MaterialSummary";
+import MaterialChart from "../components/MaterialChart";
+import MaterialSummary from "../components/MaterialSummary";
 
 const pillColor = {
   하양: "#ffffff",
@@ -51,7 +51,7 @@ const pillType = {
   기타: "",
 };
 
-const DetailComponent = ({}) => {
+const Detail = ({}) => {
   const { param } = useParams();
   const detailDataArr = useRecoilValue(detailDataState);
   const otherDataArr = useRecoilValue(otherDataState);
@@ -664,4 +664,4 @@ const OtherLinkBtn = styled(motion.a)`
   font-weight: 600;
 `;
 
-export default DetailComponent;
+export default Detail;

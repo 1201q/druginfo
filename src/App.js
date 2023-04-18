@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import SearchResult from "./Pages/SearchResult";
 import Header from "./components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import DetailComponent from "./components/DetailComponent";
+import Detail from "./Pages/Detail";
 import { useRecoilState } from "recoil";
 import {
   detailDataState,
@@ -14,10 +14,10 @@ import {
 
 function App() {
   const [keyWord, setKeyWord] = useState(() => {
-    if (!localStorage.getItem("searchKeyWord")) {
+    if (!localStorage.getItem("recentSearchKeyWord")) {
       return "탁센";
     } else {
-      return localStorage.getItem("searchKeyWord");
+      return localStorage.getItem("recentSearchKeyWord");
     }
   });
   const [prevKeyWord, setPrevKeyWord] = useState("");
@@ -39,6 +39,8 @@ function App() {
       setOtherDataArr([]);
       setPrevKeyWord(keyWord);
       setSearchLoading(true);
+
+      // 함수
       getDrugDetailData();
       getDrugSimpleData();
     }
@@ -70,10 +72,8 @@ function App() {
       .get(URL1, { params })
       .then((res) => {
         setDetailDataArr(res.data.body.items);
-
-        if (res.data.body.items) {
-          localStorage.setItem("searchKeyWord", keyWord);
-        }
+        localStorage.setItem("recentSearchKeyWord", keyWord);
+        updateSearchHistory();
       })
       .catch((err) => {
         console.log(err);
@@ -120,6 +120,27 @@ function App() {
       });
   };
 
+  const updateSearchHistory = () => {
+    let historyArr = JSON.parse(localStorage.getItem("searchHistory"));
+
+    if (historyArr === null) {
+      //보통 이 사이트에 처음 접속했을 경우
+      localStorage.setItem("searchHistory", "[]");
+    } else {
+      const maxLength = 9;
+      //만약 로컬스토리지에 배열이 존재할 경우
+      //[검사] arr에 내가 방금 검색한 키워드가 포함되어있지 않을경우에만 배열을 업데이트
+      //[검사] 배열의 length가 10이 넘어가면 index 0을 삭제하고 push
+      if (historyArr.indexOf(keyWord) === -1) {
+        if (historyArr.length > maxLength) {
+          historyArr.shift();
+        }
+        historyArr.push(keyWord);
+        localStorage.setItem("searchHistory", JSON.stringify(historyArr));
+      }
+    }
+  };
+
   const parseXML = (string) => {
     let returnArr = [];
     const parser = new DOMParser();
@@ -163,7 +184,7 @@ function App() {
             path="/"
             element={<SearchResult searchLoading={searchLoading} />}
           ></Route>
-          <Route path="/detail/:param" element={<DetailComponent />}></Route>
+          <Route path="/detail/:param" element={<Detail />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
