@@ -11,6 +11,32 @@ import {
   simpleDataState,
   otherDataState,
 } from "./Context/Context";
+import { useQueries } from "react-query";
+
+const SETTING = {
+  LOCALHOST_URL1: process.env.REACT_APP_LOCALHOST_URL1,
+  LOCALHOST_URL2: process.env.REACT_APP_LOCALHOST_URL2,
+  LOCALHOST_URL3: process.env.REACT_APP_LOCALHOST_URL3,
+
+  SERVER_URL1: process.env.REACT_APP_SERVER_URL1,
+  SERVER_URL2: process.env.REACT_APP_SERVER_URL2,
+  SERVER_URL3: process.env.REACT_APP_SERVER_URL3,
+};
+
+const APIURL = {
+  URL1:
+    window.location.hostname === "localhost"
+      ? SETTING.LOCALHOST_URL1
+      : SETTING.SERVER_URL1,
+  URL2:
+    window.location.hostname === "localhost"
+      ? SETTING.LOCALHOST_URL2
+      : SETTING.SERVER_URL2,
+  URL3:
+    window.location.hostname === "localhost"
+      ? SETTING.LOCALHOST_URL3
+      : SETTING.SERVER_URL3,
+};
 
 function App() {
   const [keyWord, setKeyWord] = useState(() => {
@@ -21,28 +47,96 @@ function App() {
     }
   });
   const [prevKeyWord, setPrevKeyWord] = useState("");
-  const [searchLoading, setSearchLoading] = useState(true);
+  const [pillList, setPillList] = useState([]);
 
   // recoil
   const [detailDataArr, setDetailDataArr] = useRecoilState(detailDataState);
   const [simpleDataArr, setSimpleDataArr] = useRecoilState(simpleDataState);
   const [otherDataArr, setOtherDataArr] = useRecoilState(otherDataState);
 
+  // useQuery
+  const queries = useQueries([
+    {
+      queryKey: ["detail", keyWord],
+      queryFn: () =>
+        axios.get(APIURL.URL1, { params }).then((res) => res.data.body.items),
+      enabled: Boolean(keyWord),
+      staleTime: 300000, // 5분
+    },
+    {
+      queryKey: ["simple", keyWord],
+      queryFn: () =>
+        axios.get(APIURL.URL2, { params }).then((res) => res.data.body.items),
+      enabled: Boolean(keyWord),
+      staleTime: 300000,
+    },
+    {
+      queryKey: ["other", keyWord],
+      queryFn: () =>
+        axios
+          .get(APIURL.URL3, {
+            params: {
+              type: "json",
+              item_name: keyWord,
+              numOfRows: 20,
+            },
+          })
+          .then((res) => res.data.body.items),
+      enabled: Boolean(keyWord),
+      staleTime: 300000,
+    },
+  ]);
+
+  const [detailArr, simpleArr, otherArr] = queries.map((query) => query.data);
+  const [detailDataLoading, simpleDataLoading, otherDataLoading] = queries.map(
+    (query) => query.isLoading
+  );
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    if (keyWord !== prevKeyWord) {
+    if (!detailDataLoading) {
       setDetailDataArr([]);
-      setSimpleDataArr([]);
-      setOtherDataArr([]);
-      setPrevKeyWord(keyWord);
-      setSearchLoading(true);
+      setDetailDataArr(detailArr);
+      if (detailArr.length > 0) {
+        localStorage.setItem("recentSearchKeyWord", keyWord);
+      }
+      updateSearchHistory();
+    }
+  }, [detailArr]);
 
-      // 함수
-      getDrugDetailData();
-      getDrugSimpleData();
+  useEffect(() => {
+    if (!simpleDataLoading) {
+      setSimpleDataArr([]);
+      setSimpleDataArr(simpleArr);
+
+      let list = [];
+      simpleArr.map((item) => {
+        list.push(item.ITEM_SEQ);
+      });
+      setPillList(list);
+    }
+  }, [simpleArr]);
+
+  useEffect(() => {
+    if (otherArr && pillList) {
+      setOtherDataArr([]);
+      let imageList = Array(pillList.length).fill(null);
+      otherArr.map((item) => {
+        if (pillList.indexOf(item.ITEM_SEQ) !== -1) {
+          imageList[pillList.indexOf(item.ITEM_SEQ)] = item;
+        }
+      });
+      setOtherDataArr(imageList);
+      console.log(imageList);
+    }
+  }, [pillList, otherArr]);
+
+  useEffect(() => {
+    if (keyWord !== prevKeyWord) {
+      setPrevKeyWord(keyWord);
     }
   }, [keyWord]);
 
@@ -52,74 +146,6 @@ function App() {
     item_name: keyWord,
   };
 
-  const LOCALHOST_URL1 = process.env.REACT_APP_LOCALHOST_URL1;
-  const LOCALHOST_URL2 = process.env.REACT_APP_LOCALHOST_URL2;
-  const LOCALHOST_URL3 = process.env.REACT_APP_LOCALHOST_URL3;
-
-  const SERVER_URL1 = process.env.REACT_APP_SERVER_URL1;
-  const SERVER_URL2 = process.env.REACT_APP_SERVER_URL2;
-  const SERVER_URL3 = process.env.REACT_APP_SERVER_URL3;
-
-  const URL1 =
-    window.location.hostname === "localhost" ? LOCALHOST_URL1 : SERVER_URL1;
-  const URL2 =
-    window.location.hostname === "localhost" ? LOCALHOST_URL2 : SERVER_URL2;
-  const URL3 =
-    window.location.hostname === "localhost" ? LOCALHOST_URL3 : SERVER_URL3;
-
-  const getDrugDetailData = () => {
-    axios
-      .get(URL1, { params })
-      .then((res) => {
-        setDetailDataArr(res.data.body.items);
-        localStorage.setItem("recentSearchKeyWord", keyWord);
-        updateSearchHistory();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const getDrugSimpleData = () => {
-    axios
-      .get(URL2, { params })
-      .then((res) => {
-        let list = [];
-
-        setSimpleDataArr(res.data.body.items);
-        setSearchLoading(false);
-
-        res.data.body.items.map((item) => {
-          list.push(item.ITEM_SEQ);
-        });
-
-        getDrugOtherData(list);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const getDrugOtherData = (list) => {
-    let imageList = Array(list.length).fill(null);
-    axios
-      .get(URL3, {
-        params: {
-          type: "json",
-          item_name: keyWord,
-          numOfRows: 20,
-        },
-      })
-      .then((res) => {
-        res.data.body.items.map((item) => {
-          if (list.indexOf(item.ITEM_SEQ) !== -1) {
-            imageList[list.indexOf(item.ITEM_SEQ)] = item;
-          }
-        });
-        setOtherDataArr(imageList);
-      });
-  };
-
   const updateSearchHistory = () => {
     let historyArr = JSON.parse(localStorage.getItem("searchHistory"));
 
@@ -127,7 +153,7 @@ function App() {
       //보통 이 사이트에 처음 접속했을 경우
       localStorage.setItem("searchHistory", "[]");
     } else {
-      const maxLength = 9;
+      const maxLength = 19;
       //만약 로컬스토리지에 배열이 존재할 경우
       //[검사] arr에 내가 방금 검색한 키워드가 포함되어있지 않을경우에만 배열을 업데이트
       //[검사] 배열의 length가 10이 넘어가면 index 0을 삭제하고 push
@@ -141,48 +167,14 @@ function App() {
     }
   };
 
-  const parseXML = (string) => {
-    let returnArr = [];
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(string, "text/xml");
-    const articles = xmlDoc.getElementsByTagName("ARTICLE");
-
-    for (let i = 0; i < articles.length; i++) {
-      const article = articles[i];
-      const paragraphs = article.getElementsByTagName("PARAGRAPH");
-      const articleTitle = article.getAttribute("title");
-
-      if (articleTitle) {
-        returnArr.push(articleTitle);
-      }
-
-      for (let j = 0; j < paragraphs.length; j++) {
-        const paragraph = paragraphs[j];
-        const content = paragraph.textContent;
-
-        if (content) {
-          returnArr.push(content);
-        }
-      }
-    }
-    return returnArr.join("\n").trim();
-  };
-
   return (
     <div className="App">
       <BrowserRouter>
-        <Header
-          keyWord={keyWord}
-          prevKeyWord={prevKeyWord}
-          setKeyWord={setKeyWord}
-          setSearchLoading={setSearchLoading}
-          getDrugDetailData={getDrugDetailData}
-          getDrugSimpleData={getDrugSimpleData}
-        />
+        <Header setKeyWord={setKeyWord} />
         <Routes>
           <Route
             path="/"
-            element={<SearchResult searchLoading={searchLoading} />}
+            element={<SearchResult searchLoading={simpleDataLoading} />}
           ></Route>
           <Route path="/detail/:param" element={<Detail />}></Route>
         </Routes>

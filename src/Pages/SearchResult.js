@@ -70,7 +70,7 @@ const HeaderText = styled.p`
   margin: 0;
   font-weight: 900;
   font-size: 40px;
-  margin: 70px 0px 20px 0px;
+  margin: 30px 0px 20px 0px;
 `;
 
 const Box = styled(motion.div)`
