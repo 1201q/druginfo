@@ -11,7 +11,7 @@ import {
 
 import { Ring } from "@uiball/loaders";
 
-const Component = ({ index }) => {
+const Component = ({ index, setIsExpanded, setSelectIndex }) => {
   const [imgLink, setImgLink] = useState(null);
   const [imgLoading, setImgLoading] = useState(true);
   const detailDataArr = useRecoilValue(detailDataState);
@@ -55,44 +55,44 @@ const Component = ({ index }) => {
 
   return (
     <AnimatePresence>
-      <Container>
+      <Container
+        onClick={() => {
+          setIsExpanded(true);
+          setSelectIndex(index);
+        }}
+      >
         <Wrapper>
-          <StyledLink
-            to={`/detail/${
-              detailDataArr[index] && detailDataArr[index].ITEM_SEQ
-            }`}
-          >
-            {imgLink ? (
-              <div>
-                {imgLoading ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: 280,
-                      height: 153,
-                      marginBottom: 19,
-                    }}
-                  >
-                    <Ring color="black" speed={1} lineWeight={5} />
-                  </div>
-                ) : null}
-                <Thumbnail
-                  src={imgLink}
-                  alt=""
-                  onLoad={() => setImgLoading(false)}
-                  style={{ display: imgLoading && "none" }}
-                />
-              </div>
-            ) : (
-              <Thumbnail src={require("../images/thumbnail.png")} alt="" />
-            )}
+          {imgLink ? (
+            <div>
+              {imgLoading ? (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: 280,
+                    height: 153,
+                    marginBottom: 19,
+                  }}
+                >
+                  <Ring color="black" speed={1} lineWeight={5} />
+                </div>
+              ) : null}
+              <Thumbnail
+                src={imgLink}
+                alt=""
+                onLoad={() => setImgLoading(false)}
+                style={{ display: imgLoading && "none" }}
+              />
+            </div>
+          ) : (
+            <Thumbnail src={require("../images/thumbnail.png")} alt="" />
+          )}
 
-            <ComponentHeader>
-              {simpleDataArr[index].ITEM_NAME.replace(/\([^)]*\)/g, "")}
-            </ComponentHeader>
-          </StyledLink>
+          <ComponentHeader>
+            {simpleDataArr[index].ITEM_NAME.replace(/\([^)]*\)/g, "")}
+          </ComponentHeader>
+
           <ComponentInfo>
             {simpleDataArr[index].SPCLTY_PBLC} <hr></hr>{" "}
             {simpleDataArr[index].ENTP_NAME}

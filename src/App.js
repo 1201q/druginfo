@@ -12,6 +12,7 @@ import {
   otherDataState,
 } from "./Context/Context";
 import { useQueries } from "react-query";
+import ExpandedInfo from "./components/ExpandedInfo";
 
 const SETTING = {
   LOCALHOST_URL1: process.env.REACT_APP_LOCALHOST_URL1,
@@ -176,7 +177,6 @@ function App() {
             path="/"
             element={<SearchResult searchLoading={simpleDataLoading} />}
           ></Route>
-          <Route path="/detail/:param" element={<Detail />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

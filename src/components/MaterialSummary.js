@@ -27,7 +27,7 @@ const MaterialSummary = ({ pillMaterial }) => {
 };
 
 const Container = styled.div`
-  margin-top: 50px;
+  margin-top: 10px;
   width: 100%;
 `;
 

@@ -10,20 +10,21 @@ import {
   otherDataState,
 } from "../Context/Context";
 import { useRecoilValue } from "recoil";
+import ExpandedInfo from "../components/ExpandedInfo";
 
 const SearchResult = ({ searchLoading }) => {
   const detailDataArr = useRecoilValue(detailDataState);
   const simpleDataArr = useRecoilValue(simpleDataState);
   const otherDataArr = useRecoilValue(otherDataState);
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   const hasData =
     detailDataArr &&
     simpleDataArr &&
     detailDataArr.length > 0 &&
     simpleDataArr.length > 0;
+
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [selectIndex, setSelectIndex] = useState(null);
 
   return (
     <AnimatePresence>
@@ -40,7 +41,12 @@ const SearchResult = ({ searchLoading }) => {
             <Box>
               {simpleDataArr && otherDataArr && simpleDataArr.length > 0 ? (
                 simpleDataArr.map((item, index) => (
-                  <Component key={index} index={index} />
+                  <Component
+                    key={index}
+                    index={index}
+                    setIsExpanded={setIsExpanded}
+                    setSelectIndex={setSelectIndex}
+                  />
                 ))
               ) : (
                 <div>결과가 없어요.</div>
@@ -48,6 +54,16 @@ const SearchResult = ({ searchLoading }) => {
             </Box>
           )}
         </Wrapper>
+        {isExpanded && (
+          <ExpandedWrapper>
+            <ExpandedInfoWrapper>
+              <ExpandedInfo
+                selectIndex={selectIndex}
+                setIsExpanded={setIsExpanded}
+              />
+            </ExpandedInfoWrapper>
+          </ExpandedWrapper>
+        )}
       </Container>
     </AnimatePresence>
   );
@@ -58,7 +74,7 @@ const Container = styled(motion.div)`
   justify-content: center;
   width: 100%;
   height: 100%;
-  padding-bottom: 200px;
+  padding-bottom: 100px;
 `;
 
 const Wrapper = styled(motion.div)`
@@ -86,6 +102,23 @@ const Loading = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 90px;
+`;
+
+const ExpandedWrapper = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding-bottom: 70px;
+  z-index: 800;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  background-color: rgba(48, 50, 55, 0.5);
+`;
+
+const ExpandedInfoWrapper = styled.div`
+  max-height: 100vh;
+  overflow-y: scroll;
 `;
 
 export default SearchResult;
