@@ -113,7 +113,7 @@ const ExpandedWrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   overflow: hidden;
-  background-color: rgba(48, 50, 55, 0.5);
+  background-color: rgba(48, 50, 55, 0.8);
 `;
 
 const ExpandedInfoWrapper = styled.div`

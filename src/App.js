@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import SearchResult from "./Pages/SearchResult";
 import Header from "./components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Detail from "./Pages/Detail";
+
 import { useRecoilState } from "recoil";
 import {
   detailDataState,
@@ -12,7 +12,6 @@ import {
   otherDataState,
 } from "./Context/Context";
 import { useQueries } from "react-query";
-import ExpandedInfo from "./components/ExpandedInfo";
 
 const SETTING = {
   LOCALHOST_URL1: process.env.REACT_APP_LOCALHOST_URL1,
@@ -92,10 +91,6 @@ function App() {
   const [detailDataLoading, simpleDataLoading, otherDataLoading] = queries.map(
     (query) => query.isLoading
   );
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   useEffect(() => {
     if (!detailDataLoading) {

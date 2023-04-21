@@ -106,12 +106,7 @@ const Component = ({ index, setIsExpanded, setSelectIndex }) => {
   );
 };
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: #303237;
-`;
-
-const Container = styled.div`
+const Container = styled(motion.div)`
   width: 100%;
   background: #ffffff;
   box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.09);

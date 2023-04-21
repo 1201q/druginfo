@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useRef, useEffect, useState } from "react";
+import { ReactComponent as Pill } from "../images/pills.svg";
 
 import { motion } from "framer-motion";
 const Header = ({ setKeyWord }) => {
@@ -16,7 +17,14 @@ const Header = ({ setKeyWord }) => {
       <Wrapper>
         <Box>
           <LogoBox>
-            <img src={require("../images/Line.png")} alt="로고" />
+            <p>더조은</p>
+            <Pill
+              fill="white"
+              width={23}
+              height={23}
+              style={{ marginLeft: "5px", marginRight: "3px" }}
+            />
+            <p>약</p>
           </LogoBox>
           <SearchBox>
             <img src={require("../images/Vector.png")} alt="검색" />
@@ -41,7 +49,7 @@ const Container = styled.div`
   position: sticky;
   top: 0;
   width: 100%;
-  background: linear-gradient(90.14deg, #0066ff 0.03%, #00a3ff 100%);
+  background: #0b2239;
   box-shadow: 0px 4px 7px 0px #00000012;
   height: 60px;
   color: white;
@@ -68,12 +76,11 @@ const Box = styled.div`
 `;
 
 const LogoBox = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 30px;
+  font-weight: 900;
   cursor: pointer;
-
-  img {
-    width: 30px;
-    height: 20px;
-  }
 `;
 const SearchBox = styled.div`
   display: flex;

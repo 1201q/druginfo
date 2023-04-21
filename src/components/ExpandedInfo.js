@@ -10,6 +10,7 @@ import {
 } from "../Context/Context";
 import MaterialChart from "../components/MaterialChart";
 import MaterialSummary from "../components/MaterialSummary";
+import { ReactComponent as X } from "../images/X.svg";
 
 const pillColor = {
   하양: "#ffffff",
@@ -58,11 +59,6 @@ const ExpandedInfo = ({ setIsExpanded, selectIndex }) => {
 
   const [pillStyle, setPillStyle] = useState(null);
   const [pillMaterial, setPillMaterial] = useState(null);
-  // const [selectIndex, setselectIndex] = useState("?"); // data중 내가 클릭한 인덱스가 몇 번째인지.
-
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  // }, []);
 
   useEffect(() => {
     if (selectIndex >= 0) {
@@ -70,10 +66,6 @@ const ExpandedInfo = ({ setIsExpanded, selectIndex }) => {
       getPillStyle(otherDataArr[selectIndex]);
     }
   }, [selectIndex]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   const parseXML = (string) => {
     let returnArr = [];
@@ -138,15 +130,29 @@ const ExpandedInfo = ({ setIsExpanded, selectIndex }) => {
   return (
     <AnimatePresence>
       <Container
-        onClick={() => {
-          setIsExpanded(false);
+        initial={{ opacity: 0.6, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          type: "spring",
+          stiffness: 1000,
+          damping: 40,
+          duration: 0.4,
         }}
       >
-        <Wrapper
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.1 }}
-        >
+        <HeaderBarWrapper>
+          <HeaderBarContainer>
+            <X
+              width="15"
+              height="15"
+              fill="white"
+              onClick={() => {
+                setIsExpanded(false);
+              }}
+              style={{ cursor: "pointer" }}
+            />
+          </HeaderBarContainer>
+        </HeaderBarWrapper>
+        <Wrapper>
           <EffectContainer>
             <EffectWrapper>
               <Thumbnail
@@ -521,15 +527,31 @@ const ExpandedInfo = ({ setIsExpanded, selectIndex }) => {
   );
 };
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   width: 100%;
   max-width: 1100px;
   background: white;
   box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.09);
   border-radius: 15px;
-  cursor: pointer;
-  margin-top: 40px;
+  margin-top: 20px;
   margin-bottom: 40px;
+`;
+
+const HeaderBarWrapper = styled.div`
+  width: 100%;
+  height: 40px;
+  background: #0b2239;
+  border-radius: 10px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+`;
+
+const HeaderBarContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 12px 20px;
+  box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.09);
 `;
 
 const Wrapper = styled(motion.div)`
