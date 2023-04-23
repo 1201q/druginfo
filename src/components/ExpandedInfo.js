@@ -136,7 +136,7 @@ const ExpandedInfo = ({ setIsExpanded, selectIndex }) => {
           type: "spring",
           stiffness: 1000,
           damping: 40,
-          duration: 0.4,
+          duration: 0.6,
         }}
       >
         <HeaderBarWrapper>
@@ -533,7 +533,7 @@ const Container = styled(motion.div)`
   background: white;
   box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.09);
   border-radius: 15px;
-  margin-top: 20px;
+  margin-top: 30px;
   margin-bottom: 40px;
 `;
 

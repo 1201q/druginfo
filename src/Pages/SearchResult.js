@@ -11,6 +11,8 @@ import {
 } from "../Context/Context";
 import { useRecoilValue } from "recoil";
 import ExpandedInfo from "../components/ExpandedInfo";
+import Sidebar from "../components/SideBar";
+import { ReactComponent as SearchImg } from "../images/searchimg.svg";
 
 const SearchResult = ({ searchLoading }) => {
   const detailDataArr = useRecoilValue(detailDataState);
@@ -25,45 +27,58 @@ const SearchResult = ({ searchLoading }) => {
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectIndex, setSelectIndex] = useState(null);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   return (
     <AnimatePresence>
       <Container>
-        <Wrapper>
-          <HeaderText>검색</HeaderText>
-          {hasData && <EffectRecommend />}
-          {searchLoading ? (
-            <Loading>
-              <RaceBy size={250} speed={1} lineWeight={10} />
-              <div style={{ marginTop: 30 }}>로딩중</div>
-            </Loading>
-          ) : (
-            <Box>
-              {simpleDataArr && otherDataArr && simpleDataArr.length > 0 ? (
-                simpleDataArr.map((item, index) => (
-                  <Component
-                    key={index}
-                    index={index}
-                    setIsExpanded={setIsExpanded}
-                    setSelectIndex={setSelectIndex}
-                  />
-                ))
-              ) : (
-                <div>결과가 없어요.</div>
-              )}
-            </Box>
+        <>
+          <Wrapper>
+            <HeaderText>검색</HeaderText>
+            {hasData && <EffectRecommend />}
+            {searchLoading ? (
+              <Loading>
+                <RaceBy size={250} speed={1} lineWeight={10} />
+                <div style={{ marginTop: 30 }}>로딩중</div>
+              </Loading>
+            ) : (
+              <Box>
+                {simpleDataArr && otherDataArr && simpleDataArr.length > 0 ? (
+                  simpleDataArr.map((item, index) => (
+                    <Component
+                      key={index}
+                      index={index}
+                      setIsExpanded={setIsExpanded}
+                      setSelectIndex={setSelectIndex}
+                    />
+                  ))
+                ) : (
+                  <div>결과가 없어요.</div>
+                )}
+              </Box>
+            )}
+          </Wrapper>
+          {isExpanded && (
+            <ExpandedWrapper>
+              <ExpandedInfoWrapper>
+                <ExpandedInfo
+                  selectIndex={selectIndex}
+                  setIsExpanded={setIsExpanded}
+                />
+              </ExpandedInfoWrapper>
+            </ExpandedWrapper>
           )}
-        </Wrapper>
-        {isExpanded && (
-          <ExpandedWrapper>
-            <ExpandedInfoWrapper>
-              <ExpandedInfo
-                selectIndex={selectIndex}
-                setIsExpanded={setIsExpanded}
-              />
-            </ExpandedInfoWrapper>
-          </ExpandedWrapper>
-        )}
+        </>
+        {isSidebarVisible && <Sidebar />}
+        <SidebarOpenBtn
+          onClick={() => {
+            setIsSidebarVisible(!isSidebarVisible);
+          }}
+          // whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <SearchImg width={"35px"} height={"35px"} fill="white" />
+        </SidebarOpenBtn>
       </Container>
     </AnimatePresence>
   );
@@ -119,6 +134,30 @@ const ExpandedWrapper = styled(motion.div)`
 const ExpandedInfoWrapper = styled.div`
   max-height: 100vh;
   overflow-y: scroll;
+`;
+
+const SidebarOpenBtn = styled(motion.button)`
+  width: 60px;
+  height: 60px;
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 999;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  background: #396afc; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to left,
+    #2948ff,
+    #396afc
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to left,
+    #2948ff,
+    #396afc
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 `;
 
 export default SearchResult;

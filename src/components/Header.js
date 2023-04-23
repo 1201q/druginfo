@@ -3,6 +3,7 @@ import { useRef, useEffect, useState } from "react";
 import { ReactComponent as Pill } from "../images/pills.svg";
 
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 const Header = ({ setKeyWord }) => {
   const [searchKeyWord, setsearchKeyWord] = useState("");
 
@@ -16,16 +17,18 @@ const Header = ({ setKeyWord }) => {
     <Container>
       <Wrapper>
         <Box>
-          <LogoBox>
-            <p>더조은</p>
-            <Pill
-              fill="white"
-              width={23}
-              height={23}
-              style={{ marginLeft: "5px", marginRight: "3px" }}
-            />
-            <p>약</p>
-          </LogoBox>
+          <StyledLink to="/">
+            <LogoBox>
+              <p>더조은</p>
+              <Pill
+                fill="white"
+                width={23}
+                height={23}
+                style={{ marginLeft: "5px", marginRight: "3px" }}
+              />
+              <p>약</p>
+            </LogoBox>
+          </StyledLink>
           <SearchBox>
             <img src={require("../images/Vector.png")} alt="검색" />
             <form onSubmit={onSubmit}>
@@ -44,6 +47,11 @@ const Header = ({ setKeyWord }) => {
     </Container>
   );
 };
+
+const StyledLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+`;
 
 const Container = styled.div`
   position: sticky;
