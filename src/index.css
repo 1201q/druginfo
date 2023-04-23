@@ -25,6 +25,11 @@ button {
   font-family: "Pretendard-Regular";
 }
 
+p {
+  margin: 0;
+  padding: 0;
+}
+
 /* 모든 스크롤바에 대한 기본 스타일 */
 ::-webkit-scrollbar {
   width: 0;

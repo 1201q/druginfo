@@ -42,7 +42,8 @@ const Container = styled(motion.div)`
 
 const Wrapper = styled.div`
   position: relative;
-  height: 600px;
+  min-height: 400px;
+  height: max-content;
   background-color: white;
   padding: 20px;
   padding-top: 30px;

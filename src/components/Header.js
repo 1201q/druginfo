@@ -1,17 +1,21 @@
 import styled from "styled-components";
 import { useRef, useEffect, useState } from "react";
 import { ReactComponent as Pill } from "../images/pills.svg";
+import { convertKeyword } from "../Context/Context";
 
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 const Header = ({ setKeyWord }) => {
   const [searchKeyWord, setsearchKeyWord] = useState("");
+  const [inputFocus, setInputFocus] = useState(false);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setKeyWord(searchKeyWord);
+    setKeyWord(convertKeyword(searchKeyWord)[0]);
     setsearchKeyWord("");
   };
+
+  const inputRef = useRef();
 
   return (
     <Container>
@@ -39,8 +43,30 @@ const Header = ({ setKeyWord }) => {
                 onChange={(e) => {
                   setsearchKeyWord(e.target.value);
                 }}
+                ref={inputRef}
+                onFocus={() => setInputFocus(true)}
+                onBlur={() => setInputFocus(false)}
+                style={{
+                  borderBottomLeftRadius: inputFocus ? "0px" : "6px",
+                  borderBottomRightRadius: inputFocus ? "0px" : "6px",
+                }}
               />
             </form>
+            {inputFocus && (
+              <RecommendContainer>
+                <RecommendTopHeader>
+                  검색어 자동 보정이 적용 중이에요.
+                </RecommendTopHeader>
+                <RecommendKeyWordLine>
+                  <KeyWordHeader>보정</KeyWordHeader>
+                  <RecommendKeyWord>
+                    {searchKeyWord === ""
+                      ? "검색어"
+                      : convertKeyword(searchKeyWord)[0]}
+                  </RecommendKeyWord>
+                </RecommendKeyWordLine>
+              </RecommendContainer>
+            )}
           </SearchBox>
         </Box>
       </Wrapper>
@@ -91,14 +117,17 @@ const LogoBox = styled.div`
   cursor: pointer;
 `;
 const SearchBox = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
+
   input {
     width: 250px;
     height: 36px;
     border: none;
     background: #ffffff;
     border-radius: 6px;
+    font-size: 17px;
     outline: none;
     padding: 0px 15px 0px 40px;
   }
@@ -114,6 +143,48 @@ const SearchBox = styled.div`
     width: 16px;
     height: 16px;
   }
+`;
+
+const RecommendContainer = styled.div`
+  width: 265px;
+  height: 40px;
+  position: absolute;
+  top: 35px;
+  background-color: white;
+  border-radius: 10px;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+  color: BLACK;
+  box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.09);
+  padding: 15px 20px 20px 20px;
+`;
+
+const RecommendKeyWordLine = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+`;
+
+const KeyWordHeader = styled.div`
+  min-width: max-content;
+  background-color: #eeeeee;
+  color: #2a3039;
+  font-weight: bold;
+  font-size: 11px;
+  padding: 3px 5px;
+  margin-right: 10px;
+  border-radius: 5px;
+`;
+
+const RecommendTopHeader = styled.p`
+  font-size: 13px;
+  color: #808080;
+`;
+
+const RecommendKeyWord = styled.p`
+  font-size: 13px;
+  color: #808080;
 `;
 
 export default Header;

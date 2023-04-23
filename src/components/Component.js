@@ -98,7 +98,9 @@ const Component = ({ index, setIsExpanded, setSelectIndex }) => {
             {simpleDataArr[index].ENTP_NAME}
           </ComponentInfo>
           <ComponentType>
-            {simpleDataArr[index].PRDUCT_TYPE.replace(/\[[^\]]*\]/g, "")}
+            {simpleDataArr[index].PRDUCT_TYPE
+              ? simpleDataArr[index].PRDUCT_TYPE.replace(/\[[^\]]*\]/g, "")
+              : "정보없음"}
           </ComponentType>
         </Wrapper>
       </Container>

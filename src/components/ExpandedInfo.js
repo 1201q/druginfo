@@ -179,11 +179,12 @@ const ExpandedInfo = ({ setIsExpanded, selectIndex }) => {
                 </ComponentInfo>
                 <div style={{ display: "flex" }}>
                   <ComponentType fcolor={"#3182f6"} fBg={"#e8f3ff"}>
-                    {selectIndex >= 0 &&
-                      simpleDataArr[selectIndex].PRDUCT_TYPE.replace(
-                        /\[[^\]]*\]/g,
-                        ""
-                      )}
+                    {selectIndex >= 0 && simpleDataArr[selectIndex].PRDUCT_TYPE
+                      ? simpleDataArr[selectIndex].PRDUCT_TYPE.replace(
+                          /\[[^\]]*\]/g,
+                          ""
+                        )
+                      : "정보없음"}
                   </ComponentType>
                   <ComponentType fcolor={"#303237"} fBg={"#f2f4f6"}>
                     {selectIndex >= 0 &&

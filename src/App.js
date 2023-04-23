@@ -13,6 +13,8 @@ import {
 } from "./Context/Context";
 import { useQueries } from "react-query";
 
+import { convertKeyword } from "./Context/Context";
+
 const SETTING = {
   LOCALHOST_URL1: process.env.REACT_APP_LOCALHOST_URL1,
   LOCALHOST_URL2: process.env.REACT_APP_LOCALHOST_URL2,
@@ -135,6 +137,10 @@ function App() {
       setPrevKeyWord(keyWord);
     }
   }, [keyWord]);
+
+  useEffect(() => {
+    convertKeyword("크라비트1.5%점안액");
+  }, []);
 
   const params = {
     serviceKey: process.env.REACT_APP_DECODING_KEY,
