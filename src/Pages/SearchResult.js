@@ -13,6 +13,7 @@ import { useRecoilValue } from "recoil";
 import ExpandedInfo from "../components/ExpandedInfo";
 import Sidebar from "../components/SideBar";
 import { ReactComponent as SearchImg } from "../images/searchimg.svg";
+import Multi from "../components/Multi";
 
 const SearchResult = ({ searchLoading }) => {
   const detailDataArr = useRecoilValue(detailDataState);
@@ -28,6 +29,7 @@ const SearchResult = ({ searchLoading }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectIndex, setSelectIndex] = useState(null);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [isMultiVisible, setIsMultiVisible] = useState(false);
 
   return (
     <AnimatePresence>
@@ -68,17 +70,25 @@ const SearchResult = ({ searchLoading }) => {
               </ExpandedInfoWrapper>
             </ExpandedWrapper>
           )}
+          {isMultiVisible && (
+            <ExpandedWrapper>
+              <ExpandedInfoWrapper>
+                <Multi setIsMultiVisible={setIsMultiVisible} />
+              </ExpandedInfoWrapper>
+            </ExpandedWrapper>
+          )}
         </>
-        {isSidebarVisible && <Sidebar />}
-        <SidebarOpenBtn
-          onClick={() => {
-            setIsSidebarVisible(!isSidebarVisible);
-          }}
-          // whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <SearchImg width={"35px"} height={"35px"} fill="white" />
-        </SidebarOpenBtn>
+        {isSidebarVisible && <Sidebar setIsMultiVisible={setIsMultiVisible} />}
+        {!isExpanded && (
+          <SidebarOpenBtn
+            onClick={() => {
+              setIsSidebarVisible(!isSidebarVisible);
+            }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <SearchImg width={"35px"} height={"35px"} fill="white" />
+          </SidebarOpenBtn>
+        )}
       </Container>
     </AnimatePresence>
   );
@@ -90,6 +100,7 @@ const Container = styled(motion.div)`
   width: 100%;
   height: 100%;
   padding-bottom: 100px;
+  background-color: rgba(247, 249, 250, 0.1);
 `;
 
 const Wrapper = styled(motion.div)`
@@ -123,6 +134,7 @@ const ExpandedWrapper = styled(motion.div)`
   position: fixed;
   top: 0;
   width: 100%;
+  height: 100vh;
   padding-bottom: 70px;
   z-index: 800;
   display: flex;

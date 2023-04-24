@@ -23,14 +23,11 @@ const Header = ({ setKeyWord }) => {
         <Box>
           <StyledLink to="/">
             <LogoBox>
-              <p>더조은</p>
-              <Pill
-                fill="white"
-                width={23}
-                height={23}
-                style={{ marginLeft: "5px", marginRight: "3px" }}
+              <img
+                src={require(`../images/headerLogo.png`)}
+                alt=""
+                style={{ width: "130px", height: "100%" }}
               />
-              <p>약</p>
             </LogoBox>
           </StyledLink>
           <SearchBox>
@@ -83,7 +80,7 @@ const Container = styled.div`
   position: sticky;
   top: 0;
   width: 100%;
-  background: #0b2239;
+  background: white;
   box-shadow: 0px 4px 7px 0px #00000012;
   height: 60px;
   color: white;
@@ -125,7 +122,7 @@ const SearchBox = styled.div`
     width: 250px;
     height: 36px;
     border: none;
-    background: #ffffff;
+    background: rgba(228, 232, 239, 0.7);
     border-radius: 6px;
     font-size: 17px;
     outline: none;

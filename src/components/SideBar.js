@@ -1,20 +1,16 @@
 import styled from "styled-components";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ReactComponent as X } from "../images/X.svg";
 
-const Sidebar = () => {
-  let arr = [
-    "아고틴정25밀리그램",
-    "콘서타OROS서방정밀리그램",
-    "아고틴정25밀리그램",
-    "콘서타OROS서방정밀리그램",
-    "아고틴정25밀리그램",
-    "콘서타OROS서방정밀리그램",
-    "아고틴정25밀리그램",
-    "콘서타OROS서방정밀리그램",
-    "아고틴정25밀리그램",
-    "콘서타OROS서방정밀리그램",
-  ];
+const Sidebar = ({ setIsMultiVisible }) => {
+  const [arr, setArr] = useState(() => {
+    if (!localStorage.getItem("multiKeyWord")) {
+      return ["검색어를", "검색해보세요."];
+    } else {
+      return JSON.parse(localStorage.getItem("multiKeyWord"));
+    }
+  });
   return (
     <Container initial={{ scale: 0.4 }} animate={{ scale: 1 }}>
       <Wrapper>
@@ -26,8 +22,12 @@ const Sidebar = () => {
             </PillRemoveBtn>
           </PillComponent>
         ))}
-
-        <SearchBtn whileTap={{ scale: 0.9 }}>멀티검색</SearchBtn>
+        <SearchBtn
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setIsMultiVisible(true)}
+        >
+          멀티검색
+        </SearchBtn>
       </Wrapper>
     </Container>
   );
@@ -35,6 +35,7 @@ const Sidebar = () => {
 
 const Container = styled(motion.div)`
   width: 100%;
+  min-width: 300px;
   max-width: 300px;
   margin-left: 40px;
   margin-top: 40px;
