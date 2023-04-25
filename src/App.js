@@ -128,7 +128,6 @@ function App() {
         }
       });
       setOtherDataArr(imageList);
-      console.log(imageList);
     }
   }, [pillList, otherArr]);
 
@@ -155,7 +154,7 @@ function App() {
       //보통 이 사이트에 처음 접속했을 경우
       localStorage.setItem("searchHistory", "[]");
     } else {
-      const maxLength = 19;
+      const maxLength = 9;
       //만약 로컬스토리지에 배열이 존재할 경우
       //[검사] arr에 내가 방금 검색한 키워드가 포함되어있지 않을경우에만 배열을 업데이트
       //[검사] 배열의 length가 10이 넘어가면 index 0을 삭제하고 push
@@ -176,7 +175,12 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<SearchResult searchLoading={simpleDataLoading} />}
+            element={
+              <SearchResult
+                setKeyWord={setKeyWord}
+                searchLoading={simpleDataLoading}
+              />
+            }
           ></Route>
         </Routes>
       </BrowserRouter>

@@ -15,7 +15,7 @@ import Sidebar from "../components/SideBar";
 import { ReactComponent as SearchImg } from "../images/searchimg.svg";
 import Multi from "../components/Multi";
 
-const SearchResult = ({ searchLoading }) => {
+const SearchResult = ({ searchLoading, setKeyWord }) => {
   const detailDataArr = useRecoilValue(detailDataState);
   const simpleDataArr = useRecoilValue(simpleDataState);
   const otherDataArr = useRecoilValue(otherDataState);
@@ -78,7 +78,12 @@ const SearchResult = ({ searchLoading }) => {
             </ExpandedWrapper>
           )}
         </>
-        {isSidebarVisible && <Sidebar setIsMultiVisible={setIsMultiVisible} />}
+        {isSidebarVisible && (
+          <Sidebar
+            setKeyWord={setKeyWord}
+            setIsMultiVisible={setIsMultiVisible}
+          />
+        )}
         {!isExpanded && (
           <SidebarOpenBtn
             onClick={() => {

@@ -1,9 +1,24 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ReactComponent as X } from "../images/X.svg";
+import { ReactComponent as Angle } from "../images/angle-right.svg";
+import { ReactComponent as Bookmark } from "../images/bookmark.svg";
+import { ReactComponent as Glass } from "../images/glass.svg";
+import { debounce, throttle } from "lodash";
+import { useRecoilState } from "recoil";
+import {
+  detailDataState,
+  simpleDataState,
+  otherDataState,
+} from "../Context/Context";
 
-const Sidebar = ({ setIsMultiVisible }) => {
+const Sidebar = ({ setIsMultiVisible, setKeyWord }) => {
+  // recoil
+  const [detailDataArr, setDetailDataArr] = useRecoilState(detailDataState);
+  const [simpleDataArr, setSimpleDataArr] = useRecoilState(simpleDataState);
+  const [otherDataArr, setOtherDataArr] = useRecoilState(otherDataState);
+
   const [arr, setArr] = useState(() => {
     if (!localStorage.getItem("multiKeyWord")) {
       return ["검색어를", "검색해보세요."];
@@ -11,24 +26,114 @@ const Sidebar = ({ setIsMultiVisible }) => {
       return JSON.parse(localStorage.getItem("multiKeyWord"));
     }
   });
+
+  const [historyArr, setHistoryArr] = useState(() => {
+    if (!localStorage.getItem("searchHistory")) {
+      return [];
+    } else {
+      return JSON.parse(localStorage.getItem("searchHistory"));
+    }
+  });
+
+  const [top, setTop] = useState(window.scrollY);
+  const handscroll = debounce(() => {
+    const offset = window.scrollY;
+    setTop(offset);
+  }, 10);
+
+  const [history, setHistory] = useState(true);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handscroll);
+    return () => {
+      window.removeEventListener("scroll", handscroll);
+    };
+  }, [handscroll]);
+
+  useEffect(() => {
+    if (localStorage.getItem("searchHistory")) {
+      setHistoryArr(JSON.parse(localStorage.getItem("searchHistory")));
+    }
+  }, [detailDataArr]);
+
   return (
-    <Container initial={{ scale: 0.4 }} animate={{ scale: 1 }}>
-      <Wrapper>
-        {arr.map((item, index) => (
-          <PillComponent>
-            <div>{item}</div>
-            <PillRemoveBtn>
-              <X width={12} height={12} fill="gray" />
-            </PillRemoveBtn>
-          </PillComponent>
-        ))}
-        <SearchBtn
-          whileTap={{ scale: 0.9 }}
-          onClick={() => setIsMultiVisible(true)}
-        >
-          멀티검색
-        </SearchBtn>
-      </Wrapper>
+    <Container
+      mtop={`${40 + top}px`}
+      initial={{ scale: 0.4 }}
+      animate={{ scale: 1 }}
+    >
+      <AnimatePresence>
+        <HistoryWrapper layoutId="1">
+          {history ? (
+            <motion.div animate={{ opacity: 1 }}>
+              <PillHeader>최근검색어</PillHeader>
+              {historyArr.map((item, index) => (
+                <PillComponent key={index} onClick={() => setKeyWord(item)}>
+                  <div>{item}</div>
+                  <PillRemoveBtn>
+                    <X width={12} height={12} fill="#919191" />
+                  </PillRemoveBtn>
+                </PillComponent>
+              ))}
+            </motion.div>
+          ) : (
+            <SideBox
+              onClick={() => setHistory(true)}
+              whileHover={{ scale: 1.04 }}
+            >
+              <motion.div style={{ display: "flex", alignItems: "center" }}>
+                <Bookmark
+                  width={20}
+                  height={20}
+                  fill="#303237"
+                  style={{ marginRight: "10px" }}
+                />
+                최근검색어
+              </motion.div>
+              <Angle width={20} height={20} fill="#919191" />
+            </SideBox>
+          )}
+        </HistoryWrapper>
+      </AnimatePresence>
+      <AnimatePresence mode="in-out">
+        <Wrapper layoutId="2">
+          {!history ? (
+            <motion.div>
+              <PillHeader>멀티검색</PillHeader>
+              {arr.map((item, index) => (
+                <PillComponent key={`${index}-1`}>
+                  <div>{item}</div>
+                  <PillRemoveBtn>
+                    <X width={12} height={12} fill="#919191" />
+                  </PillRemoveBtn>
+                </PillComponent>
+              ))}
+              <SearchBtn
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setIsMultiVisible(true)}
+              >
+                멀티검색
+              </SearchBtn>
+            </motion.div>
+          ) : (
+            <SideBox
+              onClick={() => setHistory(false)}
+              whileHover={{ scale: 1.04 }}
+            >
+              <motion.div style={{ display: "flex", alignItems: "center" }}>
+                <Glass
+                  width={18}
+                  height={20}
+                  fill="#303237"
+                  style={{ marginRight: "10px" }}
+                />{" "}
+                멀티검색{" "}
+              </motion.div>
+              <Angle width={20} height={20} fill="#919191" />
+            </SideBox>
+          )}
+        </Wrapper>{" "}
+      </AnimatePresence>
     </Container>
   );
 };
@@ -38,20 +143,37 @@ const Container = styled(motion.div)`
   min-width: 300px;
   max-width: 300px;
   margin-left: 40px;
-  margin-top: 40px;
+  margin-top: ${(props) => props.mtop};
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   position: relative;
-  min-height: 400px;
+
   height: max-content;
   background-color: white;
   padding: 20px;
-  padding-top: 30px;
+  padding-top: 20px;
   border-radius: 15px;
   background-color: white;
   box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.09);
   margin-bottom: 40px;
+`;
+
+const HistoryWrapper = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+  height: max-content;
+  background-color: white;
+
+  padding: 20px;
+  padding-top: 20px;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.09);
+  margin-bottom: 20px;
+  font-size: 23px;
 `;
 
 // 컴포넌트
@@ -72,6 +194,14 @@ const PillComponent = styled.div`
   }
 `;
 
+const PillHeader = styled(motion.div)`
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  margin-left: 10px;
+  margin-top: 0px;
+`;
+
 const PillRemoveBtn = styled.div`
   position: absolute;
   right: 0;
@@ -90,6 +220,17 @@ const SearchBtn = styled(motion.button)`
   margin-top: 20px;
   font-size: 15px;
   cursor: pointer;
+`;
+
+const SideBox = styled(motion.div)`
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 20px;
+  padding-left: 10px;
 `;
 
 export default Sidebar;
