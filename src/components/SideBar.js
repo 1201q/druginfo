@@ -13,7 +13,7 @@ import {
   otherDataState,
 } from "../Context/Context";
 
-const Sidebar = ({ setIsMultiVisible, setKeyWord }) => {
+const Sidebar = ({ setIsMultiVisible, setKeyWord, keyWord }) => {
   // recoil
   const [detailDataArr, setDetailDataArr] = useRecoilState(detailDataState);
   const [simpleDataArr, setSimpleDataArr] = useRecoilState(simpleDataState);
@@ -56,6 +56,33 @@ const Sidebar = ({ setIsMultiVisible, setKeyWord }) => {
     }
   }, [detailDataArr]);
 
+  const deleteHistory = (item, idx) => {
+    let wordArr = JSON.parse(localStorage.getItem("searchHistory"));
+    localStorage.setItem(
+      "searchHistory",
+      JSON.stringify(wordArr.filter((item, selectIdx) => idx !== selectIdx))
+    );
+
+    let selectIdx = idx === 0 ? 1 : idx - 1;
+
+    if (idx > 1) {
+      localStorage.setItem(
+        "recentSearchKeyWord",
+        JSON.parse(localStorage.getItem("searchHistory"))[idx - 1]
+      );
+    } else if (idx === 0) {
+      if (JSON.parse(localStorage.getItem("searchHistory"))[1]) {
+        localStorage.setItem(
+          "recentSearchKeyWord",
+          JSON.parse(localStorage.getItem("searchHistory"))[1]
+        );
+      } else {
+        localStorage.setItem("recentSearchKeyWord", "탁센");
+      }
+    }
+    setHistoryArr(JSON.parse(localStorage.getItem("searchHistory")));
+  };
+
   return (
     <Container
       mtop={`${40 + top}px`}
@@ -68,9 +95,20 @@ const Sidebar = ({ setIsMultiVisible, setKeyWord }) => {
             <motion.div animate={{ opacity: 1 }}>
               <PillHeader>최근검색어</PillHeader>
               {historyArr.map((item, index) => (
-                <PillComponent key={index} onClick={() => setKeyWord(item)}>
-                  <div>{item}</div>
-                  <PillRemoveBtn>
+                <PillComponent key={index}>
+                  <div
+                    onClick={() => {
+                      setKeyWord(item);
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    {item}
+                  </div>
+                  <PillRemoveBtn
+                    onClick={() => {
+                      deleteHistory(item, index);
+                    }}
+                  >
                     <X width={12} height={12} fill="#919191" />
                   </PillRemoveBtn>
                 </PillComponent>
@@ -81,7 +119,10 @@ const Sidebar = ({ setIsMultiVisible, setKeyWord }) => {
               onClick={() => setHistory(true)}
               whileHover={{ scale: 1.04 }}
             >
-              <motion.div style={{ display: "flex", alignItems: "center" }}>
+              <motion.div
+                style={{ display: "flex", alignItems: "center" }}
+                layoutId="header"
+              >
                 <Bookmark
                   width={20}
                   height={20}
@@ -95,7 +136,7 @@ const Sidebar = ({ setIsMultiVisible, setKeyWord }) => {
           )}
         </HistoryWrapper>
       </AnimatePresence>
-      <AnimatePresence mode="in-out">
+      <AnimatePresence>
         <Wrapper layoutId="2">
           {!history ? (
             <motion.div>
@@ -120,19 +161,22 @@ const Sidebar = ({ setIsMultiVisible, setKeyWord }) => {
               onClick={() => setHistory(false)}
               whileHover={{ scale: 1.04 }}
             >
-              <motion.div style={{ display: "flex", alignItems: "center" }}>
+              <motion.div
+                layoutId="header"
+                style={{ display: "flex", alignItems: "center" }}
+              >
                 <Glass
                   width={18}
                   height={20}
                   fill="#303237"
                   style={{ marginRight: "10px" }}
-                />{" "}
-                멀티검색{" "}
+                />
+                멀티검색
               </motion.div>
               <Angle width={20} height={20} fill="#919191" />
             </SideBox>
           )}
-        </Wrapper>{" "}
+        </Wrapper>
       </AnimatePresence>
     </Container>
   );

@@ -42,7 +42,10 @@ const APIURL = {
 
 function App() {
   const [keyWord, setKeyWord] = useState(() => {
-    if (!localStorage.getItem("recentSearchKeyWord")) {
+    if (
+      !localStorage.getItem("recentSearchKeyWord") ||
+      localStorage.getItem("recentSearchKeyWord") === "undefined"
+    ) {
       return "탁센";
     } else {
       return localStorage.getItem("recentSearchKeyWord");
@@ -137,10 +140,6 @@ function App() {
     }
   }, [keyWord]);
 
-  useEffect(() => {
-    convertKeyword("크라비트1.5%점안액");
-  }, []);
-
   const params = {
     serviceKey: process.env.REACT_APP_DECODING_KEY,
     type: "json",
@@ -177,6 +176,7 @@ function App() {
             path="/"
             element={
               <SearchResult
+                keyWord={keyWord}
                 setKeyWord={setKeyWord}
                 searchLoading={simpleDataLoading}
               />

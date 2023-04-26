@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import EffectRecommend from "../components/EffectRecommend";
 import Component from "../components/Component";
-import { RaceBy } from "@uiball/loaders";
+import { Ring } from "@uiball/loaders";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import {
@@ -15,7 +15,7 @@ import Sidebar from "../components/SideBar";
 import { ReactComponent as SearchImg } from "../images/searchimg.svg";
 import Multi from "../components/Multi";
 
-const SearchResult = ({ searchLoading, setKeyWord }) => {
+const SearchResult = ({ searchLoading, setKeyWord, keyWord }) => {
   const detailDataArr = useRecoilValue(detailDataState);
   const simpleDataArr = useRecoilValue(simpleDataState);
   const otherDataArr = useRecoilValue(otherDataState);
@@ -40,7 +40,7 @@ const SearchResult = ({ searchLoading, setKeyWord }) => {
             {hasData && <EffectRecommend />}
             {searchLoading ? (
               <Loading>
-                <RaceBy size={250} speed={1} lineWeight={10} />
+                <Ring size={40} speed={1} lineWeight={5} />
                 <div style={{ marginTop: 30 }}>로딩중</div>
               </Loading>
             ) : (
@@ -80,6 +80,7 @@ const SearchResult = ({ searchLoading, setKeyWord }) => {
         </>
         {isSidebarVisible && (
           <Sidebar
+            keyWord={keyWord}
             setKeyWord={setKeyWord}
             setIsMultiVisible={setIsMultiVisible}
           />
@@ -106,6 +107,7 @@ const Container = styled(motion.div)`
   height: 100%;
   padding-bottom: 100px;
   background-color: rgba(247, 249, 250, 0.1);
+  overflow: hidden;
 `;
 
 const Wrapper = styled(motion.div)`
@@ -131,8 +133,8 @@ const Loading = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin-top: 90px;
+  justify-content: flex-start;
+  margin-top: 100px;
 `;
 
 const ExpandedWrapper = styled(motion.div)`

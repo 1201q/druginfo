@@ -46,6 +46,24 @@ export const convertKeyword = (string) => {
   ];
 };
 
+export const convertMg = (string) => {
+  const startParenIndex = string.indexOf("(");
+  const endParenIndex = string.indexOf(")", startParenIndex);
+
+  string = string.replace(/\s+/g, "");
+
+  if (startParenIndex !== -1 && endParenIndex !== -1) {
+    string =
+      string.substring(0, startParenIndex) +
+      string.substring(endParenIndex + 1);
+  }
+
+  string = string.replace(/밀리그램/g, "mg");
+  string = string.replace(/밀리그람/g, "mg");
+
+  return string;
+};
+
 export const recommendKeyWord = (string) => {
   let myArr = [];
   myArr.push(string);

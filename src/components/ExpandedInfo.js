@@ -8,6 +8,7 @@ import {
   otherDataState,
   simpleDataState,
 } from "../Context/Context";
+import { convertMg } from "../Context/Context";
 import MaterialChart from "../components/MaterialChart";
 import MaterialSummary from "../components/MaterialSummary";
 import { ReactComponent as X } from "../images/X.svg";
@@ -460,7 +461,9 @@ const ExpandedInfo = ({ setIsExpanded, selectIndex }) => {
                     <OtherLinkBtn
                       bgcolor="#03C75A"
                       fcolor="white"
-                      href={`https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=${detailDataArr[selectIndex].ITEM_NAME}`}
+                      href={`https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=${convertMg(
+                        detailDataArr[selectIndex].ITEM_NAME
+                      )}`}
                       target="_blank"
                       whileTap={{ scale: 0.95 }}
                     >
@@ -475,7 +478,9 @@ const ExpandedInfo = ({ setIsExpanded, selectIndex }) => {
                     <OtherLinkBtn
                       bgcolor="#EEEDEB"
                       fcolor="#333333"
-                      href={`https://www.google.co.kr/search?q=${detailDataArr[selectIndex].ITEM_NAME}`}
+                      href={`https://www.google.co.kr/search?q=${convertMg(
+                        detailDataArr[selectIndex].ITEM_NAME
+                      )}`}
                       target="_blank"
                       whileTap={{ scale: 0.95 }}
                     >
@@ -490,7 +495,9 @@ const ExpandedInfo = ({ setIsExpanded, selectIndex }) => {
                     <OtherLinkBtn
                       bgcolor="#EEEDEB"
                       fcolor="#333333"
-                      href={`https://100.daum.net/search/entry?q=${detailDataArr[selectIndex].ITEM_NAME}`}
+                      href={`https://100.daum.net/search/entry?q=${convertMg(
+                        detailDataArr[selectIndex].ITEM_NAME
+                      )}`}
                       target="_blank"
                       whileTap={{ scale: 0.95 }}
                     >
