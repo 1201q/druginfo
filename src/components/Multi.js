@@ -51,7 +51,9 @@ const Multi = ({ setIsMultiVisible }) => {
             </EffectWrapper>
           ))}
         </EffectContainer>
-        <button onClick={() => save()}>저장</button>
+        <SaveBtn onClick={() => save()} whileTap={{ scale: 0.95 }}>
+          저장
+        </SaveBtn>
       </Wrapper>
     </Container>
   );
@@ -59,7 +61,7 @@ const Multi = ({ setIsMultiVisible }) => {
 
 const Container = styled(motion.div)`
   width: 800px;
-  height: 1000px;
+  height: max-content;
   background: white;
   box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.09);
   border-radius: 15px;
@@ -92,7 +94,6 @@ const Wrapper = styled(motion.div)`
 
 const EffectContainer = styled.div`
   width: 100%;
-
   background: #ffffff;
   box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.09);
   border-radius: 15px;
@@ -106,7 +107,6 @@ const EffectWrapper = styled.div`
   display: flex;
   flex-direction: ${(props) => props.Direction};
   height: 100%;
-  padding: 15px 20px;
 `;
 
 const HeaderText = styled.p`
@@ -118,18 +118,19 @@ const HeaderText = styled.p`
 
 const Input = styled.input`
   width: 100%;
-  padding: 10px 15px;
+  padding: 5px 10px;
   border: none;
   outline: none;
   border-radius: 10px;
   background-color: rgba(228, 232, 239, 0.7);
-  font-size: 18px;
+  font-size: 15px;
 `;
 
 const InputHeader = styled.div`
   width: 20px;
   font-size: 22px;
   margin-right: 20px;
+  margin-left: 0px;
   font-weight: bold;
   text-align: center;
 `;
@@ -138,6 +139,21 @@ const InputBox = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+  padding: 10px 10px;
+`;
+
+const SaveBtn = styled(motion.button)`
+  position: fixed;
+  bottom: 20px;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 5px 25px;
+  background-color: #14d267;
+  box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.09);
+  color: white;
+  cursor: pointer;
 `;
 
 export default Multi;

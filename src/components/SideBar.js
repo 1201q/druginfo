@@ -83,6 +83,10 @@ const Sidebar = ({ setIsMultiVisible, setKeyWord, keyWord }) => {
     setHistoryArr(JSON.parse(localStorage.getItem("searchHistory")));
   };
 
+  const deleteMulti = (item, idx) => {
+    console.log(idx);
+  };
+
   return (
     <Container
       mtop={`${40 + top}px`}
@@ -95,15 +99,15 @@ const Sidebar = ({ setIsMultiVisible, setKeyWord, keyWord }) => {
             <motion.div animate={{ opacity: 1 }}>
               <PillHeader>최근검색어</PillHeader>
               {historyArr.map((item, index) => (
-                <PillComponent key={index}>
-                  <div
+                <PillComponent key={index} whileTap={{ scale: 0.95 }}>
+                  <PillComponentClick
                     onClick={() => {
                       setKeyWord(item);
                       window.scrollTo(0, 0);
                     }}
                   >
                     {item}
-                  </div>
+                  </PillComponentClick>
                   <PillRemoveBtn
                     onClick={() => {
                       deleteHistory(item, index);
@@ -141,14 +145,22 @@ const Sidebar = ({ setIsMultiVisible, setKeyWord, keyWord }) => {
           {!history ? (
             <motion.div>
               <PillHeader>멀티검색</PillHeader>
-              {arr.map((item, index) => (
-                <PillComponent key={`${index}-1`}>
-                  <div>{item}</div>
-                  <PillRemoveBtn>
-                    <X width={12} height={12} fill="#919191" />
-                  </PillRemoveBtn>
-                </PillComponent>
-              ))}
+              {arr
+                .filter((item) => {
+                  return item !== "";
+                })
+                .map((item, index) => (
+                  <PillComponent key={`${index}-1`} whileTap={{ scale: 0.95 }}>
+                    <PillComponentClick
+                      onClick={() => {
+                        setKeyWord(item);
+                        window.scrollTo(0, 0);
+                      }}
+                    >
+                      {item}
+                    </PillComponentClick>
+                  </PillComponent>
+                ))}
               <SearchBtn
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsMultiVisible(true)}
@@ -221,7 +233,7 @@ const HistoryWrapper = styled(motion.div)`
 `;
 
 // 컴포넌트
-const PillComponent = styled.div`
+const PillComponent = styled(motion.div)`
   position: relative;
   display: flex;
   align-items: center;
@@ -236,6 +248,10 @@ const PillComponent = styled.div`
   &:hover {
     background-color: #eeeeee;
   }
+`;
+
+const PillComponentClick = styled(motion.div)`
+  width: 90%;
 `;
 
 const PillHeader = styled(motion.div)`

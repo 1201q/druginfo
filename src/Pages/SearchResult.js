@@ -3,7 +3,7 @@ import EffectRecommend from "../components/EffectRecommend";
 import Component from "../components/Component";
 import { Ring } from "@uiball/loaders";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   simpleDataState,
   detailDataState,
@@ -14,6 +14,7 @@ import ExpandedInfo from "../components/ExpandedInfo";
 import Sidebar from "../components/SideBar";
 import { ReactComponent as SearchImg } from "../images/searchimg.svg";
 import Multi from "../components/Multi";
+import lottie from "lottie-web";
 
 const SearchResult = ({ searchLoading, setKeyWord, keyWord }) => {
   const detailDataArr = useRecoilValue(detailDataState);
@@ -31,6 +32,25 @@ const SearchResult = ({ searchLoading, setKeyWord, keyWord }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [isMultiVisible, setIsMultiVisible] = useState(false);
 
+  const LoadingLottie = () => {
+    const loadingContainer = useRef();
+    useEffect(() => {
+      lottie.loadAnimation({
+        container: loadingContainer.current,
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        animationData: require("../lotties/LoadingData.json"),
+      });
+    }, []);
+
+    return (
+      <div>
+        <div ref={loadingContainer}></div>
+      </div>
+    );
+  };
+
   return (
     <AnimatePresence>
       <Container>
@@ -40,8 +60,7 @@ const SearchResult = ({ searchLoading, setKeyWord, keyWord }) => {
             {hasData && <EffectRecommend />}
             {searchLoading ? (
               <Loading>
-                <Ring size={40} speed={1} lineWeight={5} />
-                <div style={{ marginTop: 30 }}>로딩중</div>
+                <LoadingLottie />
               </Loading>
             ) : (
               <Box>
