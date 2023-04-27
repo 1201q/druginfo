@@ -62,6 +62,10 @@ const SearchResult = ({ searchLoading, setKeyWord, keyWord, resultExist }) => {
     );
   };
 
+  useEffect(() => {
+    console.log(resultExist);
+  }, [resultExist]);
+
   return (
     <AnimatePresence>
       <Container>
@@ -75,7 +79,7 @@ const SearchResult = ({ searchLoading, setKeyWord, keyWord, resultExist }) => {
               </Loading>
             ) : (
               <Box>
-                {simpleDataArr && otherDataArr && simpleDataArr.length > 0 ? (
+                {simpleDataArr && otherDataArr ? (
                   simpleDataArr.map((item, index) => (
                     <Component
                       key={index}
@@ -133,8 +137,10 @@ const SearchResult = ({ searchLoading, setKeyWord, keyWord, resultExist }) => {
             <SearchImg width={"35px"} height={"35px"} fill="white" />
           </SidebarOpenBtn>
         )}
-        <SearchCompletePopup resultExist={resultExist} />
-        {/* {!resultExist && <NoResultPopup />} */}
+        {resultExist && resultExist !== "default" && (
+          <SearchCompletePopup resultExist={resultExist} />
+        )}
+        {!resultExist && <NoResultPopup resultExist={!resultExist} />}
       </Container>
     </AnimatePresence>
   );

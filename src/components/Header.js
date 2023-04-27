@@ -11,7 +11,9 @@ const Header = ({ setKeyWord }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setKeyWord(convertKeyword(searchKeyWord)[0]);
+    if (convertKeyword(searchKeyWord)[0]) {
+      setKeyWord(convertKeyword(searchKeyWord)[0]);
+    }
     setsearchKeyWord("");
   };
 

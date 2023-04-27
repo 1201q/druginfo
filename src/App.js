@@ -13,9 +13,6 @@ import {
 } from "./Context/Context";
 import { useQueries } from "react-query";
 
-import { convertKeyword } from "./Context/Context";
-import { set } from "lodash";
-
 const SETTING = {
   LOCALHOST_URL1: process.env.REACT_APP_LOCALHOST_URL1,
   LOCALHOST_URL2: process.env.REACT_APP_LOCALHOST_URL2,
@@ -55,7 +52,7 @@ function App() {
   const [prevKeyWord, setPrevKeyWord] = useState("");
   const [pillList, setPillList] = useState([]);
 
-  const [resultExist, setResultExist] = useState("default");
+  const [resultExist, setResultExist] = useState("default"); // fetch 데이터가 존재하는 경우 팝업을 제어하기위함
 
   // recoil
   const [detailDataArr, setDetailDataArr] = useRecoilState(detailDataState);
@@ -67,7 +64,13 @@ function App() {
     {
       queryKey: ["detail", keyWord],
       queryFn: () =>
-        axios.get(APIURL.URL1, { params }).then((res) => res.data.body.items),
+        axios.get(APIURL.URL1, { params }).then((res) => {
+          if (res.data.body.items === undefined) {
+            setResultExist(false);
+            console.log("실행됨");
+          }
+          return res.data.body.items;
+        }),
       enabled: Boolean(keyWord),
       staleTime: 300000, // 5분
     },
@@ -106,9 +109,8 @@ function App() {
       setDetailDataArr(detailArr);
       if (detailArr.length > 0) {
         localStorage.setItem("recentSearchKeyWord", keyWord);
+
         setResultExist(true);
-      } else {
-        setResultExist(false);
       }
       updateSearchHistory();
     }
@@ -147,10 +149,9 @@ function App() {
   }, [keyWord]);
 
   useEffect(() => {
-    console.log(resultExist);
     const existTimeout = setTimeout(() => {
       setResultExist("default");
-    }, 500);
+    }, 2500);
     return () => clearTimeout(existTimeout);
   }, [resultExist]);
 

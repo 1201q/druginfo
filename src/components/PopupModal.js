@@ -10,41 +10,59 @@ import lottie from "lottie-web";
 // 6.여기에 스크롤로 구현을 하든 그렇게 해야할듯?
 
 // 1.검색했는데 검색어가 없으면 없다고
-export const NoResultPopup = () => {
+export const NoResultPopup = ({ resultExist }) => {
+  const [isVisible, setIsVisible] = useState(resultExist);
+  useEffect(() => {
+    setIsVisible(resultExist);
+  }, [resultExist]);
   const FailLottie = () => {
     const failContainer = useRef();
     useEffect(() => {
       lottie.loadAnimation({
         container: failContainer.current,
         renderer: "svg",
-        loop: true,
+        loop: false,
         autoplay: true,
 
         animationData: require("../lotties/failData.json"),
       });
+
+      const time = setTimeout(() => {
+        setIsVisible(false);
+      }, 2000);
+      return () => clearTimeout(time);
     }, []);
 
     return <Lottie ref={failContainer}></Lottie>;
   };
 
   return (
-    <Container
-      initial={{ y: 10, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.2 }}
-      bgcolor={"#e3342f"}
-    >
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <Msg fcolor={"white"}>검색결과가 없어요.</Msg>
-        <FailLottie />
-      </div>
-    </Container>
+    <AnimatePresence>
+      {isVisible && (
+        <Container
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 10, scale: 0 }}
+          transition={{ duration: 0.2 }}
+          bgcolor={"#e3342f"}
+        >
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Msg fcolor={"white"}>검색결과가 없어요.</Msg>
+            <FailLottie />
+          </div>
+        </Container>
+      )}
+    </AnimatePresence>
   );
 };
 
 // 4.검색어 바뀔때마다 갱신됐다고 알림
 export const SearchCompletePopup = ({ resultExist }) => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(resultExist);
+
+  useEffect(() => {
+    setIsVisible(resultExist);
+  }, [resultExist]);
 
   const CompleteLottie = () => {
     const completeContainer = useRef();
@@ -52,7 +70,7 @@ export const SearchCompletePopup = ({ resultExist }) => {
       lottie.loadAnimation({
         container: completeContainer.current,
         renderer: "svg",
-        loop: true,
+        loop: false,
         autoplay: true,
 
         animationData: require("../lotties/successData.json"),
@@ -68,18 +86,22 @@ export const SearchCompletePopup = ({ resultExist }) => {
   };
 
   return (
-    <Container
-      initial={{ y: 10, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.2 }}
-      bgcolor={"white"}
-      style={{ display: isVisible ? "block" : "none" }}
-    >
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <Msg fcolor={"#303237"}>결과가 갱신됐어요.</Msg>
-        <CompleteLottie />
-      </div>
-    </Container>
+    <AnimatePresence>
+      {isVisible && (
+        <Container
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.2 }}
+          exit={{ y: 10, scale: 0 }}
+          bgcolor={"white"}
+        >
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Msg fcolor={"#303237"}>결과가 갱신됐어요.</Msg>
+            <CompleteLottie />
+          </div>
+        </Container>
+      )}
+    </AnimatePresence>
   );
 };
 
