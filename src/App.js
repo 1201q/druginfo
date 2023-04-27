@@ -14,6 +14,7 @@ import {
 import { useQueries } from "react-query";
 
 import { convertKeyword } from "./Context/Context";
+import { set } from "lodash";
 
 const SETTING = {
   LOCALHOST_URL1: process.env.REACT_APP_LOCALHOST_URL1,
@@ -53,6 +54,8 @@ function App() {
   });
   const [prevKeyWord, setPrevKeyWord] = useState("");
   const [pillList, setPillList] = useState([]);
+
+  const [resultExist, setResultExist] = useState("default");
 
   // recoil
   const [detailDataArr, setDetailDataArr] = useRecoilState(detailDataState);
@@ -103,6 +106,9 @@ function App() {
       setDetailDataArr(detailArr);
       if (detailArr.length > 0) {
         localStorage.setItem("recentSearchKeyWord", keyWord);
+        setResultExist(true);
+      } else {
+        setResultExist(false);
       }
       updateSearchHistory();
     }
@@ -139,6 +145,14 @@ function App() {
       setPrevKeyWord(keyWord);
     }
   }, [keyWord]);
+
+  useEffect(() => {
+    console.log(resultExist);
+    const existTimeout = setTimeout(() => {
+      setResultExist("default");
+    }, 500);
+    return () => clearTimeout(existTimeout);
+  }, [resultExist]);
 
   const params = {
     serviceKey: process.env.REACT_APP_DECODING_KEY,
@@ -179,6 +193,7 @@ function App() {
                 keyWord={keyWord}
                 setKeyWord={setKeyWord}
                 searchLoading={simpleDataLoading}
+                resultExist={resultExist}
               />
             }
           ></Route>

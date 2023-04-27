@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useRecoilValue } from "recoil";
 import { simpleDataState, detailDataState } from "../Context/Context";
 
@@ -34,24 +34,26 @@ const EffectRecommend = () => {
   };
 
   return (
-    <Container
-      initial={{ translateY: 20, opacity: 0 }}
-      animate={{ translateY: 0, opacity: 1 }}
-      transition={{ duration: 0.2 }}
-    >
-      <Wrapper>
-        <Header>
-          <ComponentType>추천</ComponentType>
-          <p>
-            {simpleDataArr.length > 0 && simpleDataArr[0].ITEM_NAME}의
-            효능효과를 추천해드릴게요!
-          </p>
-        </Header>
-        <Text>
-          {detailDataArr.length > 0 && parseXML(detailDataArr[0].EE_DOC_DATA)}
-        </Text>
-      </Wrapper>
-    </Container>
+    <AnimatePresence>
+      <Container
+        initial={{ translateY: 20, opacity: 0 }}
+        animate={{ translateY: 0, opacity: 1 }}
+        transition={{ duration: 0.2 }}
+      >
+        <Wrapper>
+          <Header>
+            <ComponentType>추천</ComponentType>
+            <p>
+              {simpleDataArr.length > 0 && simpleDataArr[0].ITEM_NAME}의
+              효능효과를 추천해드릴게요!
+            </p>
+          </Header>
+          <Text>
+            {detailDataArr.length > 0 && parseXML(detailDataArr[0].EE_DOC_DATA)}
+          </Text>
+        </Wrapper>
+      </Container>
+    </AnimatePresence>
   );
 };
 

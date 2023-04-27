@@ -13,19 +13,16 @@ import {
   otherDataState,
 } from "../Context/Context";
 
-const Sidebar = ({ setIsMultiVisible, setKeyWord, keyWord }) => {
+const Sidebar = ({
+  setIsMultiVisible,
+  setKeyWord,
+  multiSearchArr,
+  setIsFloatingBtnVisible,
+}) => {
   // recoil
   const [detailDataArr, setDetailDataArr] = useRecoilState(detailDataState);
   const [simpleDataArr, setSimpleDataArr] = useRecoilState(simpleDataState);
   const [otherDataArr, setOtherDataArr] = useRecoilState(otherDataState);
-
-  const [arr, setArr] = useState(() => {
-    if (!localStorage.getItem("multiKeyWord")) {
-      return ["검색어를", "검색해보세요."];
-    } else {
-      return JSON.parse(localStorage.getItem("multiKeyWord"));
-    }
-  });
 
   const [historyArr, setHistoryArr] = useState(() => {
     if (!localStorage.getItem("searchHistory")) {
@@ -63,8 +60,6 @@ const Sidebar = ({ setIsMultiVisible, setKeyWord, keyWord }) => {
       JSON.stringify(wordArr.filter((item, selectIdx) => idx !== selectIdx))
     );
 
-    let selectIdx = idx === 0 ? 1 : idx - 1;
-
     if (idx > 1) {
       localStorage.setItem(
         "recentSearchKeyWord",
@@ -81,10 +76,6 @@ const Sidebar = ({ setIsMultiVisible, setKeyWord, keyWord }) => {
       }
     }
     setHistoryArr(JSON.parse(localStorage.getItem("searchHistory")));
-  };
-
-  const deleteMulti = (item, idx) => {
-    console.log(idx);
   };
 
   return (
@@ -127,12 +118,12 @@ const Sidebar = ({ setIsMultiVisible, setKeyWord, keyWord }) => {
                 style={{ display: "flex", alignItems: "center" }}
                 layoutId="header"
               >
-                <Bookmark
+                {/* <Bookmark
                   width={20}
                   height={20}
                   fill="#303237"
                   style={{ marginRight: "10px" }}
-                />
+                /> */}
                 최근검색어
               </motion.div>
               <Angle width={20} height={20} fill="#919191" />
@@ -145,7 +136,7 @@ const Sidebar = ({ setIsMultiVisible, setKeyWord, keyWord }) => {
           {!history ? (
             <motion.div>
               <PillHeader>멀티검색</PillHeader>
-              {arr
+              {multiSearchArr
                 .filter((item) => {
                   return item !== "";
                 })
@@ -163,7 +154,10 @@ const Sidebar = ({ setIsMultiVisible, setKeyWord, keyWord }) => {
                 ))}
               <SearchBtn
                 whileTap={{ scale: 0.9 }}
-                onClick={() => setIsMultiVisible(true)}
+                onClick={() => {
+                  setIsMultiVisible(true);
+                  setIsFloatingBtnVisible(false);
+                }}
               >
                 멀티검색
               </SearchBtn>

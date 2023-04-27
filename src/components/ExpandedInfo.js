@@ -53,7 +53,11 @@ const pillType = {
   기타: "",
 };
 
-const ExpandedInfo = ({ setIsExpanded, selectIndex }) => {
+const ExpandedInfo = ({
+  setIsExpanded,
+  selectIndex,
+  setIsFloatingBtnVisible,
+}) => {
   const detailDataArr = useRecoilValue(detailDataState);
   const otherDataArr = useRecoilValue(otherDataState);
   const simpleDataArr = useRecoilValue(simpleDataState);
@@ -148,6 +152,7 @@ const ExpandedInfo = ({ setIsExpanded, selectIndex }) => {
               fill="white"
               onClick={() => {
                 setIsExpanded(false);
+                setIsFloatingBtnVisible(true);
               }}
               style={{ cursor: "pointer" }}
             />

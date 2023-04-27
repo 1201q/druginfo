@@ -11,7 +11,12 @@ import {
 
 import { Ring } from "@uiball/loaders";
 
-const Component = ({ index, setIsExpanded, setSelectIndex }) => {
+const Component = ({
+  index,
+  setIsExpanded,
+  setSelectIndex,
+  setIsFloatingBtnVisible,
+}) => {
   const [imgLink, setImgLink] = useState(null);
   const [imgLoading, setImgLoading] = useState(true);
   const detailDataArr = useRecoilValue(detailDataState);
@@ -26,39 +31,13 @@ const Component = ({ index, setIsExpanded, setSelectIndex }) => {
     }
   }, [otherDataArr[index]]);
 
-  const parseXML = (string) => {
-    let returnArr = [];
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(string, "text/xml");
-    const articles = xmlDoc.getElementsByTagName("ARTICLE");
-
-    for (let i = 0; i < articles.length; i++) {
-      const article = articles[i];
-      const paragraphs = article.getElementsByTagName("PARAGRAPH");
-      const articleTitle = article.getAttribute("title");
-
-      if (articleTitle) {
-        returnArr.push(articleTitle);
-      }
-
-      for (let j = 0; j < paragraphs.length; j++) {
-        const paragraph = paragraphs[j];
-        const content = paragraph.textContent;
-
-        if (content) {
-          returnArr.push(content);
-        }
-      }
-    }
-    return returnArr.join("\n").trim();
-  };
-
   return (
     <AnimatePresence>
       <Container
         onClick={() => {
           setIsExpanded(true);
           setSelectIndex(index);
+          setIsFloatingBtnVisible(false);
         }}
       >
         <Wrapper>

@@ -16,7 +16,9 @@ import { ReactComponent as SearchImg } from "../images/searchimg.svg";
 import Multi from "../components/Multi";
 import lottie from "lottie-web";
 
-const SearchResult = ({ searchLoading, setKeyWord, keyWord }) => {
+import { NoResultPopup, SearchCompletePopup } from "../components/PopupModal";
+
+const SearchResult = ({ searchLoading, setKeyWord, keyWord, resultExist }) => {
   const detailDataArr = useRecoilValue(detailDataState);
   const simpleDataArr = useRecoilValue(simpleDataState);
   const otherDataArr = useRecoilValue(otherDataState);
@@ -31,6 +33,15 @@ const SearchResult = ({ searchLoading, setKeyWord, keyWord }) => {
   const [selectIndex, setSelectIndex] = useState(null);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [isMultiVisible, setIsMultiVisible] = useState(false);
+  const [isFloatingBtnVisible, setIsFloatingBtnVisible] = useState(true);
+
+  const [multiSearchArr, setMultiSearchArr] = useState(() => {
+    if (!localStorage.getItem("multiKeyWord")) {
+      return [""];
+    } else {
+      return JSON.parse(localStorage.getItem("multiKeyWord"));
+    }
+  });
 
   const LoadingLottie = () => {
     const loadingContainer = useRef();
@@ -71,6 +82,7 @@ const SearchResult = ({ searchLoading, setKeyWord, keyWord }) => {
                       index={index}
                       setIsExpanded={setIsExpanded}
                       setSelectIndex={setSelectIndex}
+                      setIsFloatingBtnVisible={setIsFloatingBtnVisible}
                     />
                   ))
                 ) : (
@@ -85,6 +97,7 @@ const SearchResult = ({ searchLoading, setKeyWord, keyWord }) => {
                 <ExpandedInfo
                   selectIndex={selectIndex}
                   setIsExpanded={setIsExpanded}
+                  setIsFloatingBtnVisible={setIsFloatingBtnVisible}
                 />
               </ExpandedInfoWrapper>
             </ExpandedWrapper>
@@ -92,7 +105,11 @@ const SearchResult = ({ searchLoading, setKeyWord, keyWord }) => {
           {isMultiVisible && (
             <ExpandedWrapper>
               <ExpandedInfoWrapper>
-                <Multi setIsMultiVisible={setIsMultiVisible} />
+                <Multi
+                  setIsMultiVisible={setIsMultiVisible}
+                  setIsFloatingBtnVisible={setIsFloatingBtnVisible}
+                  setMultiSearchArr={setMultiSearchArr}
+                />
               </ExpandedInfoWrapper>
             </ExpandedWrapper>
           )}
@@ -100,11 +117,13 @@ const SearchResult = ({ searchLoading, setKeyWord, keyWord }) => {
         {isSidebarVisible && (
           <Sidebar
             keyWord={keyWord}
+            multiSearchArr={multiSearchArr}
             setKeyWord={setKeyWord}
             setIsMultiVisible={setIsMultiVisible}
+            setIsFloatingBtnVisible={setIsFloatingBtnVisible}
           />
         )}
-        {!isExpanded && (
+        {isFloatingBtnVisible && (
           <SidebarOpenBtn
             onClick={() => {
               setIsSidebarVisible(!isSidebarVisible);
@@ -114,6 +133,8 @@ const SearchResult = ({ searchLoading, setKeyWord, keyWord }) => {
             <SearchImg width={"35px"} height={"35px"} fill="white" />
           </SidebarOpenBtn>
         )}
+        <SearchCompletePopup resultExist={resultExist} />
+        {/* {!resultExist && <NoResultPopup />} */}
       </Container>
     </AnimatePresence>
   );

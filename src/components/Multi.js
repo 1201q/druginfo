@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ReactComponent as X } from "../images/X.svg";
 
-const Multi = ({ setIsMultiVisible }) => {
+const Multi = ({
+  setMultiSearchArr,
+  setIsMultiVisible,
+  setIsFloatingBtnVisible,
+}) => {
   const [arr, setArr] = useState(() => {
     if (!localStorage.getItem("multiKeyWord")) {
       return Array(10).fill("내용");
@@ -14,6 +18,7 @@ const Multi = ({ setIsMultiVisible }) => {
 
   const save = () => {
     localStorage.setItem("multiKeyWord", JSON.stringify(arr));
+    setMultiSearchArr(JSON.parse(localStorage.getItem("multiKeyWord")));
   };
 
   return (
@@ -26,16 +31,17 @@ const Multi = ({ setIsMultiVisible }) => {
             fill="white"
             onClick={() => {
               setIsMultiVisible(false);
+              setIsFloatingBtnVisible(true);
             }}
             style={{ cursor: "pointer" }}
           />
         </HeaderBarContainer>
       </HeaderBarWrapper>
       <Wrapper>
-        <HeaderText>멀티검색</HeaderText>{" "}
+        <HeaderText>멀티검색</HeaderText>
         <EffectContainer>
           {arr.map((item, index) => (
-            <EffectWrapper>
+            <EffectWrapper key={index}>
               <InputBox>
                 <InputHeader>{index + 1}</InputHeader>
                 <Input
@@ -51,9 +57,28 @@ const Multi = ({ setIsMultiVisible }) => {
             </EffectWrapper>
           ))}
         </EffectContainer>
-        <SaveBtn onClick={() => save()} whileTap={{ scale: 0.95 }}>
-          저장
-        </SaveBtn>
+        <SaveBtnContainer>
+          <SaveBtn
+            btnbg={"#14d267"}
+            onClick={() => {
+              save();
+              setIsMultiVisible(false);
+              setIsFloatingBtnVisible(true);
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            저장
+          </SaveBtn>
+          <SaveBtn
+            btnbg={"red"}
+            onClick={() => {
+              setArr(Array(10).fill(""));
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            모두지우기
+          </SaveBtn>
+        </SaveBtnContainer>
       </Wrapper>
     </Container>
   );
@@ -100,6 +125,7 @@ const EffectContainer = styled.div`
   font-size: 18px;
   white-space: pre-line;
   margin-bottom: 10px;
+  padding: 5px 0px;
 `;
 
 const EffectWrapper = styled.div`
@@ -127,11 +153,11 @@ const Input = styled.input`
 `;
 
 const InputHeader = styled.div`
-  width: 20px;
-  font-size: 22px;
-  margin-right: 20px;
+  width: 30px;
+  font-size: 18px;
+  margin-right: 10px;
   margin-left: 0px;
-  font-weight: bold;
+  font-weight: 100;
   text-align: center;
 `;
 
@@ -143,17 +169,21 @@ const InputBox = styled.div`
 `;
 
 const SaveBtn = styled(motion.button)`
-  position: fixed;
-  bottom: 20px;
   border: none;
   font-size: 18px;
   font-weight: bold;
   border-radius: 10px;
   padding: 5px 25px;
-  background-color: #14d267;
+  margin-right: 10px;
+  background-color: ${(props) => props.btnbg};
   box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.09);
   color: white;
   cursor: pointer;
+`;
+
+const SaveBtnContainer = styled.div`
+  position: fixed;
+  bottom: 15px;
 `;
 
 export default Multi;
