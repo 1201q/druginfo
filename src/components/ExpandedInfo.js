@@ -65,6 +65,8 @@ const ExpandedInfo = ({
   const [pillStyle, setPillStyle] = useState(null);
   const [pillMaterial, setPillMaterial] = useState(null);
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
     if (selectIndex >= 0) {
       getPillMaterial(detailDataArr[selectIndex]);
@@ -192,13 +194,33 @@ const ExpandedInfo = ({
                         )
                       : "정보없음"}
                   </ComponentType>
-                  <ComponentType fcolor={"#303237"} fBg={"#f2f4f6"}>
-                    {selectIndex >= 0 &&
-                      detailDataArr[selectIndex].MAIN_ITEM_INGR.replace(
-                        /\[[^\]]*\]/g,
-                        ""
+
+                  {/* 약품 */}
+                  {selectIndex >= 0 &&
+                    detailDataArr[selectIndex].MAIN_ITEM_INGR.replace(
+                      /\[[^\]]*\]/g,
+                      ""
+                    )
+                      .split("|")
+                      .map((item, index) =>
+                        index <= 1 ? (
+                          <ComponentType
+                            fcolor={"#303237"}
+                            fBg={"#f2f4f6"}
+                            key={index}
+                          >
+                            {item}
+                          </ComponentType>
+                        ) : index === 2 ? (
+                          <ComponentType
+                            fcolor={"#303237"}
+                            fBg={"#f2f4f6"}
+                            key={index}
+                          >
+                            그 외...
+                          </ComponentType>
+                        ) : null
                       )}
-                  </ComponentType>
                 </div>
               </div>
             </EffectWrapper>
@@ -430,6 +452,7 @@ const ExpandedInfo = ({
             </EffectWrapper>
           </EffectContainer>
           <Span>
+            {/* 유효성분 */}
             <EffectContainer>
               <EffectWrapper>
                 <Header
@@ -444,10 +467,12 @@ const ExpandedInfo = ({
                 {pillMaterial && <MaterialChart pillMaterial={pillMaterial} />}
               </EffectWrapper>
             </EffectContainer>
+
+            {/* 성분함량 */}
             <EffectContainer>
               <OtherWrapper>
                 <Header style={{ width: "fit-content", marginBottom: "10px" }}>
-                  성분함량
+                  주요성분함량
                 </Header>
                 {selectIndex >= 0 && pillMaterial && (
                   <>
@@ -456,6 +481,8 @@ const ExpandedInfo = ({
                 )}
               </OtherWrapper>
             </EffectContainer>
+
+            {/* 다른결과 */}
             <EffectContainer>
               <OtherWrapper>
                 <Header style={{ width: "fit-content", marginBottom: "10px" }}>

@@ -6,6 +6,7 @@ import { ReactComponent as X } from "../images/X.svg";
 const Multi = ({
   setMultiSearchArr,
   setIsMultiVisible,
+  setIsMultiDataSaved,
   setIsFloatingBtnVisible,
 }) => {
   const [arr, setArr] = useState(() => {
@@ -19,6 +20,7 @@ const Multi = ({
   const save = () => {
     localStorage.setItem("multiKeyWord", JSON.stringify(arr));
     setMultiSearchArr(JSON.parse(localStorage.getItem("multiKeyWord")));
+    setIsMultiDataSaved(true);
   };
 
   return (
@@ -30,8 +32,14 @@ const Multi = ({
             height="15"
             fill="white"
             onClick={() => {
-              setIsMultiVisible(false);
-              setIsFloatingBtnVisible(true);
+              if (window.confirm("저장하고 나가시겠어요?")) {
+                save();
+                setIsMultiVisible(false);
+                setIsFloatingBtnVisible(true);
+              } else {
+                setIsMultiVisible(false);
+                setIsFloatingBtnVisible(true);
+              }
             }}
             style={{ cursor: "pointer" }}
           />
@@ -67,7 +75,7 @@ const Multi = ({
             }}
             whileTap={{ scale: 0.95 }}
           >
-            저장
+            완료
           </SaveBtn>
           <SaveBtn
             btnbg={"red"}

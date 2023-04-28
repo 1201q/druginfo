@@ -3,25 +3,53 @@ import styled from "styled-components";
 
 const MaterialSummary = ({ pillMaterial }) => {
   const [sum, setSum] = useState(null);
+  const [newArr, setNewArr] = useState([]); // 성분을 3개까지만 출력하기위함.
   useEffect(() => {
     let number = 0;
+    let OnlyNumberArr = [...pillMaterial];
     if (pillMaterial) {
       pillMaterial.map((item, index) => {
         number += item[1];
       });
     }
+
+    // console.log(pillMaterial);
+    // console.log(
+    //   OnlyNumberArr.sort((a, b) => {
+    //     return b[1] - a[1];
+    //   }).filter((item, idx) => {
+    //     if (idx <= 2) {
+    //       return item;
+    //     }
+    //   })
+    // );
+
+    setNewArr(
+      OnlyNumberArr.sort((a, b) => {
+        return b[1] - a[1];
+      }).filter((item, idx) => {
+        if (idx <= 2) {
+          return item;
+        }
+      })
+    );
+
     setSum(number);
   }, []);
   return (
     <Container>
-      {pillMaterial.map((item, index) => (
-        <Line key={index}>
-          <Rank>{index + 1}</Rank>
-          <Info>
-            {item[0]} ({(item[1] / sum).toFixed(2) * 100}%)
-          </Info>
-        </Line>
-      ))}
+      {newArr &&
+        newArr.map(
+          (item, index) =>
+            index <= 2 && (
+              <Line key={index}>
+                <Rank>{index + 1}</Rank>
+                <Info>
+                  {item[0]} ({((item[1] / sum).toFixed(2) * 100).toFixed(0)}%)
+                </Info>
+              </Line>
+            )
+        )}
     </Container>
   );
 };

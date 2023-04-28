@@ -52,7 +52,9 @@ function App() {
   const [prevKeyWord, setPrevKeyWord] = useState("");
   const [pillList, setPillList] = useState([]);
 
+  // popup
   const [resultExist, setResultExist] = useState("default"); // fetch 데이터가 존재하는 경우 팝업을 제어하기위함
+  const [isMultiDataSaved, setIsMultiDataSaved] = useState("default"); // 멀티 데이터를 저장한 경우 출력
 
   // recoil
   const [detailDataArr, setDetailDataArr] = useRecoilState(detailDataState);
@@ -114,6 +116,7 @@ function App() {
       }
       updateSearchHistory();
     }
+    console.log(detailArr);
   }, [detailArr]);
 
   useEffect(() => {
@@ -155,6 +158,13 @@ function App() {
     return () => clearTimeout(existTimeout);
   }, [resultExist]);
 
+  useEffect(() => {
+    const savedTimeout = setTimeout(() => {
+      setIsMultiDataSaved("default");
+    }, 2500);
+    return () => clearTimeout(savedTimeout);
+  }, [isMultiDataSaved]);
+
   const params = {
     serviceKey: process.env.REACT_APP_DECODING_KEY,
     type: "json",
@@ -195,6 +205,8 @@ function App() {
                 setKeyWord={setKeyWord}
                 searchLoading={simpleDataLoading}
                 resultExist={resultExist}
+                isMultiDataSaved={isMultiDataSaved}
+                setIsMultiDataSaved={setIsMultiDataSaved}
               />
             }
           ></Route>

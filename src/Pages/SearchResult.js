@@ -16,9 +16,20 @@ import { ReactComponent as SearchImg } from "../images/searchimg.svg";
 import Multi from "../components/Multi";
 import lottie from "lottie-web";
 
-import { NoResultPopup, SearchCompletePopup } from "../components/PopupModal";
+import {
+  NoResultPopup,
+  SearchCompletePopup,
+  Modal,
+} from "../components/PopupModal";
 
-const SearchResult = ({ searchLoading, setKeyWord, keyWord, resultExist }) => {
+const SearchResult = ({
+  searchLoading,
+  setKeyWord,
+  keyWord,
+  resultExist,
+  isMultiDataSaved,
+  setIsMultiDataSaved,
+}) => {
   const detailDataArr = useRecoilValue(detailDataState);
   const simpleDataArr = useRecoilValue(simpleDataState);
   const otherDataArr = useRecoilValue(otherDataState);
@@ -61,10 +72,6 @@ const SearchResult = ({ searchLoading, setKeyWord, keyWord, resultExist }) => {
       </div>
     );
   };
-
-  useEffect(() => {
-    console.log(resultExist);
-  }, [resultExist]);
 
   return (
     <AnimatePresence>
@@ -112,6 +119,7 @@ const SearchResult = ({ searchLoading, setKeyWord, keyWord, resultExist }) => {
                 <Multi
                   setIsMultiVisible={setIsMultiVisible}
                   setIsFloatingBtnVisible={setIsFloatingBtnVisible}
+                  setIsMultiDataSaved={setIsMultiDataSaved}
                   setMultiSearchArr={setMultiSearchArr}
                 />
               </ExpandedInfoWrapper>
@@ -138,9 +146,18 @@ const SearchResult = ({ searchLoading, setKeyWord, keyWord, resultExist }) => {
           </SidebarOpenBtn>
         )}
         {resultExist && resultExist !== "default" && (
-          <SearchCompletePopup resultExist={resultExist} />
+          <SearchCompletePopup
+            showPopup={resultExist}
+            text={"결과가 갱신됐어요."}
+          />
         )}
-        {!resultExist && <NoResultPopup resultExist={!resultExist} />}
+        {isMultiDataSaved && isMultiDataSaved !== "default" && (
+          <SearchCompletePopup
+            showPopup={isMultiDataSaved}
+            text={"저장됐어요."}
+          />
+        )}
+        {!resultExist && <NoResultPopup showPopup={!resultExist} />}
       </Container>
     </AnimatePresence>
   );

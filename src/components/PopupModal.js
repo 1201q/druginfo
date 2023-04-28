@@ -3,18 +3,18 @@ import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import lottie from "lottie-web";
 
-// 2.멀티검색에서 저장누르면 저장됐다고
 // 3.멀티검색에서 x누르면 저장할거냐고 물어봐야됨
 
+//
 // 5.세부창에서 위에 성분 3개까지 ,로 자르기
 // 6.여기에 스크롤로 구현을 하든 그렇게 해야할듯?
 
 // 1.검색했는데 검색어가 없으면 없다고
-export const NoResultPopup = ({ resultExist }) => {
-  const [isVisible, setIsVisible] = useState(resultExist);
+export const NoResultPopup = ({ showPopup }) => {
+  const [isVisible, setIsVisible] = useState(showPopup);
   useEffect(() => {
-    setIsVisible(resultExist);
-  }, [resultExist]);
+    setIsVisible(showPopup);
+  }, [showPopup]);
   const FailLottie = () => {
     const failContainer = useRef();
     useEffect(() => {
@@ -56,13 +56,14 @@ export const NoResultPopup = ({ resultExist }) => {
   );
 };
 
+// 2.멀티검색에서 저장누르면 저장됐다고
 // 4.검색어 바뀔때마다 갱신됐다고 알림
-export const SearchCompletePopup = ({ resultExist }) => {
-  const [isVisible, setIsVisible] = useState(resultExist);
+export const SearchCompletePopup = ({ showPopup, text }) => {
+  const [isVisible, setIsVisible] = useState(showPopup);
 
   useEffect(() => {
-    setIsVisible(resultExist);
-  }, [resultExist]);
+    setIsVisible(showPopup);
+  }, [showPopup]);
 
   const CompleteLottie = () => {
     const completeContainer = useRef();
@@ -96,7 +97,7 @@ export const SearchCompletePopup = ({ resultExist }) => {
           bgcolor={"white"}
         >
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Msg fcolor={"#303237"}>결과가 갱신됐어요.</Msg>
+            <Msg fcolor={"#303237"}>{text}</Msg>
             <CompleteLottie />
           </div>
         </Container>
@@ -130,7 +131,16 @@ const Lottie = styled.div`
   height: 50px;
 `;
 
-const SuccessLottie = styled.div`
-  width: 50px;
-  height: 50px;
+//modal
+const ModalContainer = styled(motion.div)`
+  position: fixed;
+  margin-top: 78vh;
+  display: flex;
+  justify-content: center;
+  height: min-content;
+  z-index: 10100;
+  box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border-radius: 50px;
+  padding: 2px 4px;
 `;
