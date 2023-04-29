@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import EffectRecommend from "../components/EffectRecommend";
 import Component from "../components/Component";
-import { Ring } from "@uiball/loaders";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import {
   simpleDataState,
   detailDataState,
@@ -15,12 +14,8 @@ import Sidebar from "../components/SideBar";
 import { ReactComponent as SearchImg } from "../images/searchimg.svg";
 import Multi from "../components/Multi";
 import lottie from "lottie-web";
-
-import {
-  NoResultPopup,
-  SearchCompletePopup,
-  Modal,
-} from "../components/PopupModal";
+import axios from "axios";
+import { NoResultPopup, SearchCompletePopup } from "../components/PopupModal";
 
 const SearchResult = ({
   searchLoading,
@@ -71,6 +66,14 @@ const SearchResult = ({
         <div ref={loadingContainer}></div>
       </div>
     );
+  };
+
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setQuestion("");
   };
 
   return (
@@ -126,6 +129,7 @@ const SearchResult = ({
             </ExpandedWrapper>
           )}
         </>
+
         {isSidebarVisible && (
           <Sidebar
             keyWord={keyWord}

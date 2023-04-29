@@ -98,7 +98,12 @@ const ExpandedInfo = ({
         }
       }
     }
-    return returnArr.join("\n").trim();
+
+    return returnArr
+      .join("\n")
+      .trim()
+      .replace(/(<([^>]+)>)/gi, "")
+      .replaceAll("&nbsp;", "");
   };
 
   const getPillStyle = (data) => {

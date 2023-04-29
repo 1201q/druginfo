@@ -3,11 +3,9 @@ import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import lottie from "lottie-web";
 
-// 3.멀티검색에서 x누르면 저장할거냐고 물어봐야됨
-
-//
-// 5.세부창에서 위에 성분 3개까지 ,로 자르기
-// 6.여기에 스크롤로 구현을 하든 그렇게 해야할듯?
+// 3.멀티검색에서 x누르면 저장할거냐고 물어봐야됨  완료
+// 5.세부창에서 위에 성분 3개까지 ,로 자르기       완료
+// 6.여기에 스크롤로 구현을 하든 그렇게 해야할듯?   완료
 
 // 1.검색했는데 검색어가 없으면 없다고
 export const NoResultPopup = ({ showPopup }) => {

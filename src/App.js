@@ -116,7 +116,6 @@ function App() {
       }
       updateSearchHistory();
     }
-    console.log(detailArr);
   }, [detailArr]);
 
   useEffect(() => {

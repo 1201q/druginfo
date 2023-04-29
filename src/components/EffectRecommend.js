@@ -30,7 +30,12 @@ const EffectRecommend = () => {
         }
       }
     }
-    return returnArr.join("\n").trim();
+
+    return returnArr
+      .join("\n")
+      .trim()
+      .replace(/(<([^>]+)>)/gi, "")
+      .replaceAll("&nbsp;", "");
   };
 
   return (
