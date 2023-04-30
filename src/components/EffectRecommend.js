@@ -46,16 +46,19 @@ const EffectRecommend = () => {
         transition={{ duration: 0.2 }}
       >
         <Wrapper>
-          <Header>
-            <ComponentType>추천</ComponentType>
-            <p>
-              {simpleDataArr.length > 0 && simpleDataArr[0].ITEM_NAME}의
-              효능효과를 추천해드릴게요!
-            </p>
-          </Header>
-          <Text>
-            {detailDataArr.length > 0 && parseXML(detailDataArr[0].EE_DOC_DATA)}
-          </Text>
+          <Box>
+            <Header>
+              <ComponentType>추천</ComponentType>
+              <p>
+                {simpleDataArr.length > 0 && simpleDataArr[0].ITEM_NAME}의
+                효능효과를 추천해드릴게요!
+              </p>
+            </Header>
+            <Text>
+              {detailDataArr.length > 0 &&
+                parseXML(detailDataArr[0].EE_DOC_DATA)}
+            </Text>
+          </Box>
         </Wrapper>
       </Container>
     </AnimatePresence>
@@ -63,6 +66,13 @@ const EffectRecommend = () => {
 };
 
 const Container = styled(motion.div)`
+  @media screen and (max-width: 768px) {
+    margin: 20px;
+  }
+`;
+
+const Wrapper = styled.div`
+  font-size: 20px;
   width: 100%;
   border-radius: 15px;
   background-color: white;
@@ -70,9 +80,8 @@ const Container = styled(motion.div)`
   margin-bottom: 40px;
 `;
 
-const Wrapper = styled.div`
+const Box = styled.div`
   padding: 20px;
-  font-size: 20px;
 `;
 
 const Header = styled.div`
@@ -88,12 +97,23 @@ const Header = styled.div`
     margin: 0;
     font-size: 20px;
   }
+
+  @media screen and (max-width: 768px) {
+    p {
+      margin: 0;
+      font-size: 15px;
+    }
+  }
 `;
 
 const Text = styled.div`
   font-weight: 400;
   font-size: 18px;
   white-space: pre-line;
+
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const ComponentType = styled.div`
@@ -105,6 +125,10 @@ const ComponentType = styled.div`
   padding: 3px 5px;
   margin-right: 10px;
   border-radius: 5px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 export default EffectRecommend;

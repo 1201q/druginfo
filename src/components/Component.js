@@ -114,6 +114,11 @@ const Thumbnail = styled(motion.img)`
   height: 153px;
   border-radius: 10px;
   margin-bottom: 15px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const ComponentHeader = styled(motion.div)`
@@ -123,6 +128,10 @@ const ComponentHeader = styled(motion.div)`
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 10px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 25px;
+  }
 `;
 
 const ComponentInfo = styled.div`

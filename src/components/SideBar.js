@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ReactComponent as X } from "../images/X.svg";
 import { ReactComponent as Angle } from "../images/angle-right.svg";
-import { ReactComponent as Bookmark } from "../images/bookmark.svg";
 import { ReactComponent as Glass } from "../images/glass.svg";
-import { debounce, throttle } from "lodash";
+import { debounce } from "lodash";
 import { useRecoilState } from "recoil";
 import {
   detailDataState,
@@ -194,6 +193,15 @@ const Container = styled(motion.div)`
   max-width: 300px;
   margin-left: 40px;
   margin-top: ${(props) => props.mtop};
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    position: fixed;
+    min-width: 100vw;
+    margin-left: 0px;
+    margin-top: 1px;
+    background-color: white;
+  }
 `;
 
 const Wrapper = styled(motion.div)`

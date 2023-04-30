@@ -128,17 +128,3 @@ const Lottie = styled.div`
   width: 50px;
   height: 50px;
 `;
-
-//modal
-const ModalContainer = styled(motion.div)`
-  position: fixed;
-  margin-top: 78vh;
-  display: flex;
-  justify-content: center;
-  height: min-content;
-  z-index: 10100;
-  box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.1);
-  background-color: white;
-  border-radius: 50px;
-  padding: 2px 4px;
-`;

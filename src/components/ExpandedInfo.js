@@ -12,7 +12,7 @@ import { convertMg } from "../Context/Context";
 import MaterialChart from "../components/MaterialChart";
 import MaterialSummary from "../components/MaterialSummary";
 import { ReactComponent as X } from "../images/X.svg";
-
+import PillTable from "./PillTable";
 const pillColor = {
   하양: "#ffffff",
   노랑: "#eadc00",
@@ -52,7 +52,6 @@ const pillType = {
   연질: "https://www.health.kr/images/pills/type03.jpg",
   기타: "",
 };
-
 const ExpandedInfo = ({
   setIsExpanded,
   selectIndex,
@@ -184,13 +183,12 @@ const ExpandedInfo = ({
                       ""
                     )}
                 </ComponentHeader>
-
                 <ComponentInfo>
                   {selectIndex >= 0 && simpleDataArr[selectIndex].SPCLTY_PBLC}{" "}
                   <hr></hr>
                   {selectIndex >= 0 && simpleDataArr[selectIndex].ENTP_NAME}
                 </ComponentInfo>
-                <div style={{ display: "flex" }}>
+                <Type>
                   <ComponentType fcolor={"#3182f6"} fBg={"#e8f3ff"}>
                     {selectIndex >= 0 && simpleDataArr[selectIndex].PRDUCT_TYPE
                       ? simpleDataArr[selectIndex].PRDUCT_TYPE.replace(
@@ -226,23 +224,23 @@ const ExpandedInfo = ({
                           </ComponentType>
                         ) : null
                       )}
-                </div>
+                </Type>
               </div>
             </EffectWrapper>
           </EffectContainer>
           <EffectContainer>
             <EffectWrapper>
               <Header>효능효과</Header>
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <Text style={{ display: "flex", alignItems: "center" }}>
                 {selectIndex >= 0 &&
                   parseXML(detailDataArr[selectIndex].EE_DOC_DATA)}
-              </div>
+              </Text>
             </EffectWrapper>
           </EffectContainer>
           <EffectContainer>
             <EffectWrapper>
               <Header>약품모양</Header>
-              <div
+              <Text
                 style={{
                   width: "100%",
                   display: "flex",
@@ -259,201 +257,13 @@ const ExpandedInfo = ({
                   {selectIndex >= 0 && detailDataArr[selectIndex].CHART}
                 </div>
                 {pillStyle && (
-                  <Table>
-                    <table>
-                      <tbody>
-                        <tr>
-                          <th>모양</th>
-                          <td colSpan={4}>
-                            <img src={pillStyle.shape} alt="" />
-                          </td>
-                        </tr>
-                        <tr>
-                          <th>색상</th>
-                          <td
-                            style={{
-                              width: "10%",
-                              backgroundColor: "rgba(0,128,255,0.1)",
-                            }}
-                          >
-                            앞
-                          </td>
-                          <td
-                            style={{
-                              width: "30%",
-                            }}
-                          >
-                            {otherDataArr[selectIndex].COLOR_CLASS1 ? (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                {otherDataArr[selectIndex].COLOR_CLASS1}
-
-                                <div
-                                  style={{
-                                    width: "13px",
-                                    height: "13px",
-                                    borderRadius: "50%",
-                                    border: "1px solid gray",
-                                    marginLeft: "10px",
-
-                                    backgroundColor:
-                                      pillColor[
-                                        otherDataArr[selectIndex].COLOR_CLASS1
-                                      ],
-                                  }}
-                                ></div>
-                              </div>
-                            ) : (
-                              <div>없음</div>
-                            )}
-                          </td>
-                          <td
-                            style={{
-                              width: "10%",
-                              backgroundColor: "rgba(0,128,255,0.1)",
-                            }}
-                          >
-                            뒤
-                          </td>
-                          <td
-                            style={{
-                              width: "30%",
-                            }}
-                          >
-                            {otherDataArr[selectIndex].COLOR_CLASS2 ? (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                {otherDataArr[selectIndex].COLOR_CLASS2}
-                                {"  "}
-                                <div
-                                  style={{
-                                    width: "13px",
-                                    height: "13px",
-                                    borderRadius: "50%",
-                                    border: "1px solid gray",
-                                    marginLeft: "10px",
-                                    backgroundColor:
-                                      pillColor[
-                                        otherDataArr[selectIndex].COLOR_CLASS2
-                                      ],
-                                  }}
-                                ></div>
-                              </div>
-                            ) : (
-                              <div>없음</div>
-                            )}
-                          </td>
-                        </tr>
-                        <tr>
-                          <th>분할선</th>
-                          <td
-                            style={{
-                              width: "10%",
-                              backgroundColor: "rgba(0,128,255,0.1)",
-                            }}
-                          >
-                            앞
-                          </td>
-                          <td style={{ width: "30%" }}>
-                            {pillStyle.frontLine ? pillStyle.frontLine : "없음"}
-                          </td>
-                          <td
-                            style={{
-                              width: "10%",
-                              backgroundColor: "rgba(0,128,255,0.1)",
-                            }}
-                          >
-                            뒤
-                          </td>
-                          <td style={{ width: "30%" }}>
-                            {pillStyle.backLine ? pillStyle.backLine : "없음"}
-                          </td>
-                        </tr>
-                        <tr>
-                          <th>표시</th>
-                          <td
-                            style={{
-                              width: "10%",
-                              backgroundColor: "rgba(0,128,255,0.1)",
-                            }}
-                          >
-                            앞
-                          </td>
-                          <td style={{ width: "30%" }}>
-                            {pillStyle.frontSummary
-                              ? pillStyle.frontSummary
-                              : "없음"}
-                          </td>
-                          <td
-                            style={{
-                              width: "10%",
-                              backgroundColor: "rgba(0,128,255,0.1)",
-                            }}
-                          >
-                            뒤
-                          </td>
-                          <td style={{ width: "30%" }}>
-                            {pillStyle.backSummary
-                              ? pillStyle.backSummary
-                              : "없음"}
-                          </td>
-                        </tr>
-                        <tr>
-                          <th>마크</th>
-                          <td
-                            style={{
-                              width: "10%",
-                              backgroundColor: "rgba(0,128,255,0.1)",
-                            }}
-                          >
-                            앞
-                          </td>
-                          <td style={{ width: "30%" }}>
-                            {pillStyle.frontImg ? (
-                              <img
-                                src={pillStyle.frontImg}
-                                alt=""
-                                width={"40px"}
-                              />
-                            ) : (
-                              "없음"
-                            )}
-                          </td>
-                          <td
-                            style={{
-                              width: "10%",
-                              backgroundColor: "rgba(0,128,255,0.1)",
-                            }}
-                          >
-                            뒤
-                          </td>
-                          <td style={{ width: "30%" }}>
-                            {pillStyle.backImg ? (
-                              <img
-                                src={pillStyle.backImg}
-                                alt=""
-                                width={"40px"}
-                              />
-                            ) : (
-                              "없음"
-                            )}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </Table>
+                  <PillTable
+                    pillColor={pillColor}
+                    pillStyle={pillStyle}
+                    selectIndex={selectIndex}
+                  />
                 )}
-              </div>
+              </Text>
             </EffectWrapper>
           </EffectContainer>
           <Span>
@@ -472,7 +282,6 @@ const ExpandedInfo = ({
                 {pillMaterial && <MaterialChart pillMaterial={pillMaterial} />}
               </EffectWrapper>
             </EffectContainer>
-
             {/* 성분함량 */}
             <EffectContainer>
               <OtherWrapper>
@@ -486,7 +295,6 @@ const ExpandedInfo = ({
                 )}
               </OtherWrapper>
             </EffectContainer>
-
             {/* 다른결과 */}
             <EffectContainer>
               <OtherWrapper>
@@ -604,7 +412,6 @@ const Wrapper = styled(motion.div)`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
   padding: 20px 20px;
 `;
 
@@ -617,7 +424,6 @@ const Thumbnail = styled(motion.img)`
 
 const EffectContainer = styled.div`
   width: 100%;
-
   background: #ffffff;
   box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.09);
   border-radius: 15px;
@@ -630,6 +436,12 @@ const Span = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const EffectWrapper = styled.div`
@@ -660,11 +472,25 @@ const Header = styled.div`
   padding: 5px 8px;
   margin: 0px 15px 0px 0px;
   border-radius: 10px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 13px;
+  }
+`;
+
+const Text = styled.div`
+  @media screen and (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 
 const ComponentHeader = styled(motion.div)`
   font-size: 38px;
   font-weight: 900;
+
+  @media screen and (max-width: 768px) {
+    font-size: 30px;
+  }
 `;
 
 const ComponentInfo = styled.div`
@@ -681,6 +507,10 @@ const ComponentInfo = styled.div`
     background-color: #868686;
     font-weight: 600;
   }
+
+  @media screen and (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 
 const ComponentType = styled.div`
@@ -692,37 +522,21 @@ const ComponentType = styled.div`
   padding: 5px 8px;
   margin: 10px 10px 0px 0px;
   border-radius: 10px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 14px;
+    word-wrap: break-word;
+    white-space: normal;
+  }
 `;
 
-const Table = styled.div`
-  overflow: hidden;
-  margin-top: 15px;
+const Type = styled.div`
+  width: 100%;
+  display: flex;
 
-  table {
-    width: 100%;
-    border: 1px solid #d7dcdf;
-    border-top: 2px solid rgba(0, 128, 255, 0.5);
-    color: #333333;
-    border-collapse: collapse;
-  }
-  th {
-    width: 10%;
-    text-align: center;
-    padding-bottom: 10px;
-    border: 1px solid #d7dcdf;
-    background-color: #f8f7f6;
-    border-radius: 10px;
-    padding: 5px 10px;
-    font-size: 16px;
-    font-weight: 500;
-  }
-  td {
-    width: ${(props) => props.tdWidth};
-    background-color: ${(props) => (props.mybg ? props.mybg : "#ffffff")};
-    text-align: center;
-    padding: 3px 10px;
-    border: 1px solid #d7dcdf;
-    font-size: 16px;
+  @media screen and (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
   }
 `;
 

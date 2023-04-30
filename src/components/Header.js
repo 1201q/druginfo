@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import { useRef, useEffect, useState } from "react";
-import { ReactComponent as Pill } from "../images/pills.svg";
 import { convertKeyword } from "../Context/Context";
-
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 const Header = ({ setKeyWord }) => {
@@ -25,11 +23,7 @@ const Header = ({ setKeyWord }) => {
         <Box>
           <StyledLink to="/">
             <LogoBox>
-              <img
-                src={require(`../images/headerLogo.png`)}
-                alt=""
-                style={{ width: "130px", height: "100%" }}
-              />
+              <img src={require(`../images/headerLogo.png`)} alt="" />
             </LogoBox>
           </StyledLink>
           <SearchBox>
@@ -87,6 +81,10 @@ const Container = styled.div`
   height: 60px;
   color: white;
   z-index: 100;
+
+  @media screen and (max-width: 768px) {
+    height: 60px;
+  }
 `;
 
 const Wrapper = styled(motion.div)`
@@ -94,8 +92,10 @@ const Wrapper = styled(motion.div)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   height: 100%;
+  @media screen and (max-width: 768px) {
+    padding: 0px 15px;
+  }
 `;
 
 const Box = styled.div`
@@ -106,6 +106,11 @@ const Box = styled.div`
   width: 100%;
   max-width: 1024px;
   height: 100%;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const LogoBox = styled.div`
@@ -114,6 +119,18 @@ const LogoBox = styled.div`
   font-size: 30px;
   font-weight: 900;
   cursor: pointer;
+
+  img {
+    width: 130px;
+    height: 100%;
+  }
+
+  @media screen and (max-width: 768px) {
+    img {
+      width: 130px;
+      height: 100%;
+    }
+  }
 `;
 const SearchBox = styled.div`
   position: relative;
@@ -142,6 +159,13 @@ const SearchBox = styled.div`
     width: 16px;
     height: 16px;
   }
+
+  @media screen and (max-width: 768px) {
+    input {
+      width: 170px;
+      font-size: 15px;
+    }
+  }
 `;
 
 const RecommendContainer = styled.div`
@@ -156,6 +180,10 @@ const RecommendContainer = styled.div`
   color: BLACK;
   box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.09);
   padding: 15px 20px 20px 20px;
+
+  @media screen and (max-width: 768px) {
+    width: 185px;
+  }
 `;
 
 const RecommendKeyWordLine = styled.div`
@@ -174,16 +202,28 @@ const KeyWordHeader = styled.div`
   padding: 3px 5px;
   margin-right: 10px;
   border-radius: 5px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 9px;
+  }
 `;
 
 const RecommendTopHeader = styled.p`
   font-size: 13px;
   color: #808080;
+
+  @media screen and (max-width: 768px) {
+    font-size: 11px;
+  }
 `;
 
 const RecommendKeyWord = styled.p`
   font-size: 13px;
   color: #808080;
+
+  @media screen and (max-width: 768px) {
+    font-size: 11px;
+  }
 `;
 
 export default Header;

@@ -1,8 +1,6 @@
-import axios from "axios";
-import { useState } from "react";
 import { atom } from "recoil";
 
-//recoil
+// fetch 데이터
 export const detailDataState = atom({
   key: "detailData",
   default: [],

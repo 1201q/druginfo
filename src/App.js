@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-
 import SearchResult from "./Pages/SearchResult";
 import Header from "./components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -53,7 +52,7 @@ function App() {
   const [pillList, setPillList] = useState([]);
 
   // popup
-  const [resultExist, setResultExist] = useState("default"); // fetch 데이터가 존재하는 경우 팝업을 제어하기위함
+  const [resultExist, setResultExist] = useState("default"); // fetch 데이터가 존재하는 경우와 존재X 팝업을 제어하기위함
   const [isMultiDataSaved, setIsMultiDataSaved] = useState("default"); // 멀티 데이터를 저장한 경우 출력
 
   // recoil

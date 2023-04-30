@@ -93,13 +93,18 @@ const Multi = ({
 };
 
 const Container = styled(motion.div)`
-  width: 800px;
+  min-width: 800px;
   height: max-content;
   background: white;
   box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.09);
   border-radius: 15px;
   margin-top: 30px;
   margin-bottom: 40px;
+
+  @media screen and (max-width: 768px) {
+    width: 100vw;
+    min-width: 1px;
+  }
 `;
 const HeaderBarWrapper = styled.div`
   width: 100%;

@@ -14,7 +14,6 @@ import Sidebar from "../components/SideBar";
 import { ReactComponent as SearchImg } from "../images/searchimg.svg";
 import Multi from "../components/Multi";
 import lottie from "lottie-web";
-import axios from "axios";
 import { NoResultPopup, SearchCompletePopup } from "../components/PopupModal";
 
 const SearchResult = ({
@@ -35,12 +34,11 @@ const SearchResult = ({
     detailDataArr.length > 0 &&
     simpleDataArr.length > 0;
 
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [selectIndex, setSelectIndex] = useState(null);
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-  const [isMultiVisible, setIsMultiVisible] = useState(false);
-  const [isFloatingBtnVisible, setIsFloatingBtnVisible] = useState(true);
-
+  const [isExpanded, setIsExpanded] = useState(false); // 세부 정보가 확장되었는지
+  const [selectIndex, setSelectIndex] = useState(null); // 선택된 인덱스
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false); // 사이드바 출력
+  const [isMultiVisible, setIsMultiVisible] = useState(false); // MULTI창이 확장되었는지
+  const [isFloatingBtnVisible, setIsFloatingBtnVisible] = useState(true); // 플로팅 버튼 출력여부
   const [multiSearchArr, setMultiSearchArr] = useState(() => {
     if (!localStorage.getItem("multiKeyWord")) {
       return [""];
@@ -66,14 +64,6 @@ const SearchResult = ({
         <div ref={loadingContainer}></div>
       </div>
     );
-  };
-
-  const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setQuestion("");
   };
 
   return (
@@ -105,6 +95,8 @@ const SearchResult = ({
               </Box>
             )}
           </Wrapper>
+
+          {/* 미디워쿼리 완료 */}
           {isExpanded && (
             <ExpandedWrapper>
               <ExpandedInfoWrapper>
@@ -129,7 +121,6 @@ const SearchResult = ({
             </ExpandedWrapper>
           )}
         </>
-
         {isSidebarVisible && (
           <Sidebar
             keyWord={keyWord}
@@ -180,6 +171,10 @@ const Container = styled(motion.div)`
 const Wrapper = styled(motion.div)`
   width: 100%;
   max-width: 1024px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const HeaderText = styled.p`
@@ -187,12 +182,23 @@ const HeaderText = styled.p`
   font-weight: 900;
   font-size: 40px;
   margin: 30px 0px 20px 0px;
+
+  @media screen and (max-width: 768px) {
+    padding-left: 20px;
+    font-size: 35px;
+  }
 `;
 
 const Box = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 30px;
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+  }
 `;
 
 const Loading = styled.div`
@@ -234,16 +240,8 @@ const SidebarOpenBtn = styled(motion.button)`
   cursor: pointer;
   outline: none;
   background: #396afc; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to left,
-    #2948ff,
-    #396afc
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to left,
-    #2948ff,
-    #396afc
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: -webkit-linear-gradient(to left, #2948ff, #396afc);
+  background: linear-gradient(to left, #2948ff, #396afc);
 `;
 
 export default SearchResult;
