@@ -115,6 +115,10 @@ const Container = styled(motion.div)`
   background-color: ${(props) => props.bgcolor};
   border-radius: 50px;
   padding: 2px 4px;
+
+  @media screen and (max-width: 768px) {
+    margin-top: 60vh;
+  }
 `;
 
 const Msg = styled.div`
