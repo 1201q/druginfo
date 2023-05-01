@@ -168,7 +168,7 @@ const Container = styled(motion.div)`
   justify-content: center;
   width: 100%;
   height: 100%;
-  padding-bottom: 100px;
+
   background-color: rgba(247, 249, 250, 0.1);
   overflow: hidden;
 `;
@@ -176,6 +176,7 @@ const Container = styled(motion.div)`
 const Wrapper = styled(motion.div)`
   width: 100%;
   max-width: 1024px;
+  min-height: 600px;
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -213,6 +214,7 @@ const Loading = styled.div`
   align-items: center;
   justify-content: flex-start;
   margin-top: 100px;
+  min-height: 600px;
 `;
 
 const ExpandedWrapper = styled(motion.div)`

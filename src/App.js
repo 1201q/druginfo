@@ -10,6 +10,7 @@ import {
 import { useQueries } from "react-query";
 import SearchResult from "./Pages/SearchResult";
 import Header from "./components/Main/Header";
+import MainPage from "./Pages/MainPage";
 
 const SETTING = {
   LOCALHOST_URL1: process.env.REACT_APP_LOCALHOST_URL1,
@@ -206,7 +207,9 @@ function App() {
                 setIsMultiDataSaved={setIsMultiDataSaved}
               />
             }
+            errorElement={<MainPage />}
           ></Route>
+          <Route path="/main" element={<MainPage />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
