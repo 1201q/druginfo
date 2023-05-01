@@ -1,9 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import SearchResult from "./Pages/SearchResult";
-import Header from "./components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import { useRecoilState } from "recoil";
 import {
   detailDataState,
@@ -11,6 +8,8 @@ import {
   otherDataState,
 } from "./Context/Context";
 import { useQueries } from "react-query";
+import SearchResult from "./Pages/SearchResult";
+import Header from "./components/Main/Header";
 
 const SETTING = {
   LOCALHOST_URL1: process.env.REACT_APP_LOCALHOST_URL1,

@@ -1,14 +1,12 @@
 import styled from "styled-components";
-import { useEffect, useState, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRecoilValue } from "recoil";
 import {
   detailDataState,
   simpleDataState,
   otherDataState,
-} from "../Context/Context";
-
+} from "../../Context/Context";
 import { Ring } from "@uiball/loaders";
 
 const Component = ({
@@ -65,7 +63,7 @@ const Component = ({
               />
             </div>
           ) : (
-            <Thumbnail src={require("../images/thumbnail.png")} alt="" />
+            <Thumbnail src={require("../../images/thumbnail.png")} alt="" />
           )}
 
           <ComponentHeader>

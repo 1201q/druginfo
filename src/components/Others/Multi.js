@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ReactComponent as X } from "../images/X.svg";
+import { ReactComponent as X } from "../../images/X.svg";
 
 const Multi = ({
   setMultiSearchArr,
@@ -11,7 +11,7 @@ const Multi = ({
 }) => {
   const [arr, setArr] = useState(() => {
     if (!localStorage.getItem("multiKeyWord")) {
-      return Array(10).fill("내용");
+      return Array(10).fill("");
     } else {
       return JSON.parse(localStorage.getItem("multiKeyWord"));
     }

@@ -22,7 +22,7 @@ export const NoResultPopup = ({ showPopup }) => {
         loop: false,
         autoplay: true,
 
-        animationData: require("../lotties/failData.json"),
+        animationData: require("../../lotties/failData.json"),
       });
 
       const time = setTimeout(() => {
@@ -72,7 +72,7 @@ export const SearchCompletePopup = ({ showPopup, text }) => {
         loop: false,
         autoplay: true,
 
-        animationData: require("../lotties/successData.json"),
+        animationData: require("../../lotties/successData.json"),
       });
 
       const time = setTimeout(() => {
@@ -117,7 +117,7 @@ const Container = styled(motion.div)`
   padding: 2px 4px;
 
   @media screen and (max-width: 768px) {
-    margin-top: 60vh;
+    margin-top: 70vh;
   }
 `;
 

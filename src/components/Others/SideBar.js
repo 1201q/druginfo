@@ -1,16 +1,17 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ReactComponent as X } from "../images/X.svg";
-import { ReactComponent as Angle } from "../images/angle-right.svg";
-import { ReactComponent as Glass } from "../images/glass.svg";
 import { debounce } from "lodash";
 import { useRecoilState } from "recoil";
 import {
   detailDataState,
   simpleDataState,
   otherDataState,
-} from "../Context/Context";
+} from "../../Context/Context";
+
+import { ReactComponent as X } from "../../images/X.svg";
+import { ReactComponent as Angle } from "../../images/angle-right.svg";
+import { ReactComponent as Glass } from "../../images/glass.svg";
 
 const Sidebar = ({
   setIsMultiVisible,

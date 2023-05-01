@@ -1,18 +1,20 @@
 import styled from "styled-components";
-import { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRecoilValue } from "recoil";
 import {
   detailDataState,
   otherDataState,
   simpleDataState,
-} from "../Context/Context";
-import { convertMg } from "../Context/Context";
-import MaterialChart from "../components/MaterialChart";
-import MaterialSummary from "../components/MaterialSummary";
-import { ReactComponent as X } from "../images/X.svg";
+} from "../../Context/Context";
+import { convertMg } from "../../Context/Context";
+
+import MaterialChart from "./MaterialChart";
+import MaterialSummary from "./MaterialSummary";
 import PillTable from "./PillTable";
+
+import { ReactComponent as X } from "../../images/X.svg";
+
 const pillColor = {
   하양: "#ffffff",
   노랑: "#eadc00",
@@ -171,7 +173,7 @@ const ExpandedInfo = ({
                 src={
                   otherDataArr[selectIndex]
                     ? otherDataArr[selectIndex].ITEM_IMAGE
-                    : require("../images/thumbnail.png")
+                    : require("../../images/thumbnail.png")
                 }
                 alt=""
               />
@@ -313,7 +315,7 @@ const ExpandedInfo = ({
                       whileTap={{ scale: 0.95 }}
                     >
                       <img
-                        src={require("../images/naverLogo.png")}
+                        src={require("../../images/naverLogo.png")}
                         alt=""
                         width={30}
                         style={{ marginRight: "10px", marginLeft: "15px" }}
@@ -330,7 +332,7 @@ const ExpandedInfo = ({
                       whileTap={{ scale: 0.95 }}
                     >
                       <img
-                        src={require("../images/GoogleLogo.png")}
+                        src={require("../../images/GoogleLogo.png")}
                         alt=""
                         width={30}
                         style={{ marginRight: "10px", marginLeft: "15px" }}
@@ -347,7 +349,7 @@ const ExpandedInfo = ({
                       whileTap={{ scale: 0.95 }}
                     >
                       <img
-                        src={require("../images/daumLogo.png")}
+                        src={require("../../images/daumLogo.png")}
                         alt=""
                         width={30}
                         style={{ marginRight: "10px", marginLeft: "15px" }}
@@ -362,7 +364,7 @@ const ExpandedInfo = ({
                       whileTap={{ scale: 0.95 }}
                     >
                       <img
-                        src={require("../images/governmentLogo.png")}
+                        src={require("../../images/governmentLogo.png")}
                         alt=""
                         width={30}
                         style={{ marginRight: "10px", marginLeft: "15px" }}

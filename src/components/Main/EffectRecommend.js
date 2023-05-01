@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRecoilValue } from "recoil";
-import { simpleDataState, detailDataState } from "../Context/Context";
+import { simpleDataState, detailDataState } from "../../Context/Context";
 
 const EffectRecommend = () => {
   const detailDataArr = useRecoilValue(detailDataState);

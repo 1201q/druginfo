@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import { useRef, useEffect, useState } from "react";
-import { convertKeyword } from "../Context/Context";
+import { convertKeyword } from "../../Context/Context";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 const Header = ({ setKeyWord }) => {
   const [searchKeyWord, setsearchKeyWord] = useState("");
   const [inputFocus, setInputFocus] = useState(false);
@@ -21,13 +20,16 @@ const Header = ({ setKeyWord }) => {
     <Container>
       <Wrapper>
         <Box>
-          <StyledLink to="/">
-            <LogoBox>
-              <img src={require(`../images/headerLogo.png`)} alt="" />
-            </LogoBox>
-          </StyledLink>
+          <LogoBox
+            onClick={() => {
+              window.scrollTo(0, 0);
+            }}
+          >
+            <img src={require(`../../images/headerLogo.png`)} alt="" />
+          </LogoBox>
+
           <SearchBox>
-            <img src={require("../images/Vector.png")} alt="검색" />
+            <img src={require("../../images/Vector.png")} alt="검색" />
             <form onSubmit={onSubmit}>
               <input
                 type="text"
@@ -66,11 +68,6 @@ const Header = ({ setKeyWord }) => {
     </Container>
   );
 };
-
-const StyledLink = styled(Link)`
-  color: white;
-  text-decoration: none;
-`;
 
 const Container = styled.div`
   position: sticky;

@@ -1,20 +1,26 @@
 import styled from "styled-components";
-import EffectRecommend from "../components/EffectRecommend";
-import Component from "../components/Component";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   simpleDataState,
   detailDataState,
   otherDataState,
 } from "../Context/Context";
 import { useRecoilValue } from "recoil";
-import ExpandedInfo from "../components/ExpandedInfo";
-import Sidebar from "../components/SideBar";
-import { ReactComponent as SearchImg } from "../images/searchimg.svg";
-import Multi from "../components/Multi";
 import lottie from "lottie-web";
-import { NoResultPopup, SearchCompletePopup } from "../components/PopupModal";
+
+import ExpandedInfo from "../components/ExpandedInfo/ExpandedInfo";
+import {
+  NoResultPopup,
+  SearchCompletePopup,
+} from "../components/Others/PopupModal";
+import Multi from "../components/Others/Multi";
+import Sidebar from "../components/Others/SideBar";
+import Footer from "../components/Main/Footer";
+import EffectRecommend from "../components/Main/EffectRecommend";
+import Component from "../components/Main/Component";
+
+import { ReactComponent as SearchImg } from "../images/searchimg.svg";
 
 const SearchResult = ({
   searchLoading,
@@ -94,33 +100,32 @@ const SearchResult = ({
                 )}
               </Box>
             )}
+            <Footer />
           </Wrapper>
-
-          {/* 미디워쿼리 완료 */}
-          {isExpanded && (
-            <ExpandedWrapper>
-              <ExpandedInfoWrapper>
-                <ExpandedInfo
-                  selectIndex={selectIndex}
-                  setIsExpanded={setIsExpanded}
-                  setIsFloatingBtnVisible={setIsFloatingBtnVisible}
-                />
-              </ExpandedInfoWrapper>
-            </ExpandedWrapper>
-          )}
-          {isMultiVisible && (
-            <ExpandedWrapper>
-              <ExpandedInfoWrapper>
-                <Multi
-                  setIsMultiVisible={setIsMultiVisible}
-                  setIsFloatingBtnVisible={setIsFloatingBtnVisible}
-                  setIsMultiDataSaved={setIsMultiDataSaved}
-                  setMultiSearchArr={setMultiSearchArr}
-                />
-              </ExpandedInfoWrapper>
-            </ExpandedWrapper>
-          )}
         </>
+        {isExpanded && (
+          <ExpandedWrapper>
+            <ExpandedInfoWrapper>
+              <ExpandedInfo
+                selectIndex={selectIndex}
+                setIsExpanded={setIsExpanded}
+                setIsFloatingBtnVisible={setIsFloatingBtnVisible}
+              />
+            </ExpandedInfoWrapper>
+          </ExpandedWrapper>
+        )}
+        {isMultiVisible && (
+          <ExpandedWrapper>
+            <ExpandedInfoWrapper>
+              <Multi
+                setIsMultiVisible={setIsMultiVisible}
+                setIsFloatingBtnVisible={setIsFloatingBtnVisible}
+                setIsMultiDataSaved={setIsMultiDataSaved}
+                setMultiSearchArr={setMultiSearchArr}
+              />
+            </ExpandedInfoWrapper>
+          </ExpandedWrapper>
+        )}
         {isSidebarVisible && (
           <Sidebar
             keyWord={keyWord}

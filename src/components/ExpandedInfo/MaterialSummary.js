@@ -13,17 +13,6 @@ const MaterialSummary = ({ pillMaterial }) => {
       });
     }
 
-    // console.log(pillMaterial);
-    // console.log(
-    //   OnlyNumberArr.sort((a, b) => {
-    //     return b[1] - a[1];
-    //   }).filter((item, idx) => {
-    //     if (idx <= 2) {
-    //       return item;
-    //     }
-    //   })
-    // );
-
     setNewArr(
       OnlyNumberArr.sort((a, b) => {
         return b[1] - a[1];

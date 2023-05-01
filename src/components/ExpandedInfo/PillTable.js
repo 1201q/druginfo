@@ -5,7 +5,7 @@ import {
   detailDataState,
   otherDataState,
   simpleDataState,
-} from "../Context/Context";
+} from "../../Context/Context";
 
 const PillTable = ({ pillColor, pillStyle, selectIndex }) => {
   const otherDataArr = useRecoilValue(otherDataState);
